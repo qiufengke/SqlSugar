@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Models
+namespace NewTest.Models
 {
-    public class V_Student 
+    public class TestUpdateColumnsEntity
     {
 
         /// <summary>
@@ -13,40 +10,35 @@ namespace Models
         /// Default:- 
         /// Nullable:False 
         /// </summary>
-        public int id { get; set; }
+        public Guid VGUID { get; set; }
+
+        /// <summary>
+        /// Desc:- 
+        /// Default:- 
+        /// Nullable:False 
+        /// </summary>
+        public int IdentityField { get; set; }
 
         /// <summary>
         /// Desc:- 
         /// Default:- 
         /// Nullable:True 
         /// </summary>
-        public string name { get; set; }
-
-        /// <summary>
-        /// Desc:学校ID 
-        /// Default:- 
-        /// Nullable:True 
-        /// </summary>
-        public int? sch_id { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Desc:- 
         /// Default:- 
         /// Nullable:True 
         /// </summary>
-        public string sex { get; set; }
+        public string Name2 { get; set; }
 
         /// <summary>
         /// Desc:- 
         /// Default:- 
         /// Nullable:True 
         /// </summary>
-        public Boolean? isOk { get; set; }
+        public DateTime? CreateTime { get; set; }
 
-        public string SchoolName { get; set; }
-
-        public string AreaName { get; set; }
-
-        public string SubjectName { get; set; }
     }
 }

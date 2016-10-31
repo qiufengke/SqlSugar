@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
+using SqlSugar.Tool;
 
 namespace SqlSugar
 {
@@ -52,7 +53,7 @@ namespace SqlSugar
             {
                 foreach (var item in reval.DB._mappingColumns)
                 {
-                    reval.SelectValue = Regex.Replace(reval.SelectValue,@"\."+item.Key,"."+item.Value);
+                    reval.SelectValue = Regex.Replace(reval.SelectValue, @"\." + item.Key, "." + item.Value);
                 }
             }
         }
@@ -64,17 +65,19 @@ namespace SqlSugar
             {
                 throw new SqlSugarException("Select中的拉姆达表达式,不支持外部传参数,目前支持的写法 Where(\"1=1\",new {id=1}).Select(it=>{ id=\"" + SqlSugarTool.ParSymbol + "id\".ObjToInt()}");
             }
-            if(expStr.IsValuable()&&Regex.IsMatch(expStr, @"\+|\-|\*|\/")){
+            if (expStr.IsValuable() && Regex.IsMatch(expStr, @"\+|\-|\*|\/"))
+            {
                 throw new SqlSugarException("Select中不支持变量的运算。");
             }
-            string reg= @"(\.[a-z,A-Z,_]\w*?\(.*?\))|\=\s*[a-z,A-Z,_]\w*?\(.*?\)|\=\s*[a-z,A-Z,_]\w*?\(.*?\)|\=[a-z,A-Z,_]\w*.[a-z,A-Z,_]\w*.[a-z,A-Z,_]\w*";
-            if (expStr.IsValuable() & Regex.IsMatch(expStr,reg))
+            string reg = @"(\.[a-z,A-Z,_]\w*?\(.*?\))|\=\s*[a-z,A-Z,_]\w*?\(.*?\)|\=\s*[a-z,A-Z,_]\w*?\(.*?\)|\=[a-z,A-Z,_]\w*.[a-z,A-Z,_]\w*.[a-z,A-Z,_]\w*";
+            if (expStr.IsValuable() & Regex.IsMatch(expStr, reg))
             {
                 var ms = Regex.Matches(expStr, reg);
                 var errorNum = 0;
-                foreach (Match item in ms.Cast<Match>().OrderBy(it=>it.Value.Split('.').Length))
+                foreach (Match item in ms.Cast<Match>().OrderBy(it => it.Value.Split('.').Length))
                 {
-                    if (item.Value == null) {
+                    if (item.Value == null)
+                    {
                         errorNum++;
                         break;
                     }
@@ -87,7 +90,7 @@ namespace SqlSugar
                 }
                 if (errorNum > 0)
                 {
-                    throw new SqlSugarException("Select中不支持函数"+errorFunName);
+                    throw new SqlSugarException("Select中不支持函数" + errorFunName);
                 }
             }
             return false;

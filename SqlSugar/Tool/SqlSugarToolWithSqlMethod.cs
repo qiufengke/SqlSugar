@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
+using SqlSugar.PubModel;
 
-namespace SqlSugar
+namespace SqlSugar.Tool
 {
     /// <summary>
     /// SqlSugarTool局部类存放具有拼接SQL的函数(方便工具移植到其它数据库版本)

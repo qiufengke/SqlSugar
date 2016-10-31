@@ -1,11 +1,13 @@
 ﻿using System;
 using NewTest.Demos;
 using NewTest.Interface;
+using SqlSugar.PubModel;
 
 /*
  * 更多例子请移步  http://www.cnblogs.com/sunkaixuan/
  * T4生成 http://www.cnblogs.com/sunkaixuan/p/5751503.html
  */
+
 namespace NewTest
 {
     internal class Program
@@ -23,41 +25,41 @@ namespace NewTest
             {
                 #region 基本功能
 
-                //查询
+                // 查询
                 case "select":
                     demo = new Select();
                     break;
-                //删除
+                // 删除
                 case "delete":
-                    demo = new Delete();
+                    demo = new DeleteTest();
                     break;
-                //插入
+                // 插入
                 case "insert":
-                    demo = new Insert();
+                    demo = new InsertTest();
                     break;
-                //更新
+                // 更新
                 case "update":
                     demo = new Update();
                     break;
-                //基层函数的用法
+                // 基层函数的用法
                 case "ado":
-                    demo = new Ado();
+                    demo = new AdoTest();
                     break;
-                //事务
+                // 事务
                 case "tran":
                     demo = new Tran();
                     break;
-                //创建实体函数
+                // 创建实体函数
                 case "createclass":
-                    demo = new CreateClass();
+                    demo = new CreateClassTest();
                     break;
-                //日志记录
+                // 日志记录
                 case "log":
                     demo = new Log();
                     break;
-                //枚举支持
+                // 枚举支持
                 case "enum":
-                    demo = new EnumDemo();
+                    demo = new EnumDemoTest();
                     break;
 
                 #endregion
@@ -66,7 +68,7 @@ namespace NewTest
 
                 // 自动排除非数据库列
                 case "ignoreerrorcolumns":
-                    demo = new IgnoreErrorColumns();
+                    demo = new IgnoreErrorColumnsTest();
                     break;
                 // 别名表
                 case "mappingtable":
@@ -78,30 +80,30 @@ namespace NewTest
                     break;
                 // 通过属性的方法设置别名表和别名字段
                 case "attributesmapping":
-                    demo = new AttributesMapping();
+                    demo = new AttributesMappingTest();
                     break;
 
                 #endregion
 
                 #region 业务应用
 
-                //过滤器
+                // 过滤器
                 case "filter":
-                    demo = new Filter();
+                    demo = new FilterTest();
                     break;
-                //过滤器2
+                // 过滤器2
                 case "filter2":
                     demo = new Filter2();
                     break;
-                //流水号功能
+                // 流水号功能
                 case "serialnumber":
-                    demo = new SerialNumber();
+                    demo = new SerialNumberApp();
                     break;
                 // 多语言支持 http://www.cnblogs.com/sunkaixuan/p/5709583.html
                 // 多库并行计算 http://www.cnblogs.com/sunkaixuan/p/5046517.html
                 // 配置与实例的用法
                 case "initconfig":
-                    demo = new InitConfig();
+                    demo = new InitConfigTest();
                     break;
 
                 #endregion
@@ -137,7 +139,7 @@ namespace NewTest
 
             if (demo == null) return;
 
-            //执行DEMO
+            // 执行DEMO
             demo.Init();
 
             Console.WriteLine("执行成功请关闭窗口");

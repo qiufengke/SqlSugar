@@ -7,11 +7,12 @@ using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
 using SqlSugar;
+using SqlSugar.Queryable;
 
 namespace NewTest.Demos
 {
     //枚举的支持
-    public class EnumDemo:IDemos
+    public class EnumDemoTest:IDemos
     {
 
         public void Init()

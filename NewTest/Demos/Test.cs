@@ -6,7 +6,10 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 using SqlSugar;
+using SqlSugar.Queryable;
+
 namespace NewTest.Demos
 {
     public class MyCost { public static Student2 p = new Student2() { id = 5, name = "张表", isOk = true };}
@@ -50,11 +53,11 @@ namespace NewTest.Demos
         /// <param name="db"></param>
         private void Delete(Student2 p, SqlSugarClient db)
         {
-            db.Delete<Student>(it => it.id == 1);
-            db.Delete<Student>(new Student() {  id=2});
-            db.Delete<Student,int>(3,4);
-            db.Delete<Student, int>(it=>it.id,5,6);
-            var list = db.Queryable<Student>().ToList();
+            db.Delete<StudentEntity>(it => it.id == 1);
+            db.Delete<StudentEntity>(new StudentEntity() {  id=2});
+            db.Delete<StudentEntity,int>(3,4);
+            db.Delete<StudentEntity, int>(it=>it.id,5,6);
+            var list = db.Queryable<StudentEntity>().ToList();
         }
 
         /// <summary>
@@ -65,9 +68,9 @@ namespace NewTest.Demos
         private void Update(Student2 p, SqlSugarClient db)
         {
             db.UpdateRange(StudentListUpd);
-            var list = db.Queryable<Student>().ToList();
+            var list = db.Queryable<StudentEntity>().ToList();
             db.SqlBulkReplace(StudentListUpd2);
-            list = db.Queryable<Student>().ToList();
+            list = db.Queryable<StudentEntity>().ToList();
         }
 
         /// <summary>
@@ -79,24 +82,24 @@ namespace NewTest.Demos
         {
 
             //查询第一条
-            var select1= db.Queryable<Student>().Single(it => it.id == p.id);
-            var select2 = db.Queryable<Student>().Single(it => it.id == _p.id);
+            var select1= db.Queryable<StudentEntity>().Single(it => it.id == p.id);
+            var select2 = db.Queryable<StudentEntity>().Single(it => it.id == _p.id);
 
 
             //查询分页 id3-id5
-            var select3 = db.Queryable<Student>().OrderBy(it=>it.id).Skip(2).Take(3).ToList();
+            var select3 = db.Queryable<StudentEntity>().OrderBy(it=>it.id).Skip(2).Take(3).ToList();
             //查询分页 id4-id6
-            var select4 = db.Queryable<Student>().OrderBy(it => it.id).ToPageList(2,3).ToList();
+            var select4 = db.Queryable<StudentEntity>().OrderBy(it => it.id).ToPageList(2,3).ToList();
 
             //2表join
-            var join1 = db.Queryable<Student>().JoinTable<School>((st, sc) => st.sch_id == sc.id)
-                .Select<School,V_Student>((st, sc) => new V_Student() {SchoolName=sc.name,id=st.id, name=st.name}).ToList();
+            var join1 = db.Queryable<StudentEntity>().JoinTable<School>((st, sc) => st.sch_id == sc.id)
+                .Select<School,V_StudentEntity>((st, sc) => new V_StudentEntity() {SchoolName=sc.name,id=st.id, name=st.name}).ToList();
 
             //3表join
-            var join2 = db.Queryable<Student>()
+            var join2 = db.Queryable<StudentEntity>()
                 .JoinTable<School>((st, sc) => st.sch_id == sc.id)
-                .JoinTable<School,Area>((st,sc,a)=>sc.AreaId==a.id)
-               .Select<School,Area, V_Student>((st, sc,a) => new V_Student() { SchoolName = sc.name, id = st.id, name = st.name,AreaName=a.name }).ToList();
+                .JoinTable<School,AreaEntity>((st,sc,a)=>sc.AreaId==a.id)
+               .Select<School,AreaEntity, V_StudentEntity>((st, sc,a) => new V_StudentEntity() { SchoolName = sc.name, id = st.id, name = st.name,AreaName=a.name }).ToList();
         
         }
 
@@ -116,33 +119,33 @@ namespace NewTest.Demos
         }
 
 
-        public List<Area> AreaList
+        public List<AreaEntity> AreaList
         {
             get
             {
-                List<Area> areaList = new List<Area>()
+                List<AreaEntity> areaList = new List<AreaEntity>()
                 {
-                    new Area(){ name="上海"},
-                    new Area(){ name="北京"},
-                    new Area(){ name="南通"},
-                    new Area(){ name="日本"}
+                    new AreaEntity(){ name="上海"},
+                    new AreaEntity(){ name="北京"},
+                    new AreaEntity(){ name="南通"},
+                    new AreaEntity(){ name="日本"}
                 };
                 return areaList;
             }
         }
 
-        public List<Subject> SubjectList
+        public List<SubjectEntity> SubjectList
         {
             get
             {
-                List<Subject> subList = new List<Subject>()
+                List<SubjectEntity> subList = new List<SubjectEntity>()
                 {
-                    new Subject(){ name="语文", studentId=1},
-                    new Subject(){name="数学", studentId=2},
-                    new Subject(){name=".NET", studentId=4},
-                    new Subject(){name="JAVA", studentId=5},
-                    new Subject(){name="IOS", studentId=6},
-                    new Subject(){name="PHP", studentId=7}
+                    new SubjectEntity(){ name="语文", studentId=1},
+                    new SubjectEntity(){name="数学", studentId=2},
+                    new SubjectEntity(){name=".NET", studentId=4},
+                    new SubjectEntity(){name="JAVA", studentId=5},
+                    new SubjectEntity(){name="IOS", studentId=6},
+                    new SubjectEntity(){name="PHP", studentId=7}
 
                 };
                 return subList;
@@ -152,20 +155,20 @@ namespace NewTest.Demos
         /// <summary>
         ///插入学生表数据
         /// </summary>
-        public List<Student> StudentList
+        public List<StudentEntity> StudentList
         {
             get
             {
-                List<Student> student = new List<Student>()
+                List<StudentEntity> student = new List<StudentEntity>()
                 {
-                    new Student(){ isOk=true, name="小杰", sch_id=1, sex="boy"},
-                     new Student(){ isOk=false, name="小明", sch_id=2, sex="grid"},
-                      new Student(){ isOk=true, name="张三", sch_id=3, sex="boy"},
-                       new Student(){ isOk=false, name="李四", sch_id=2, sex="grid"},
-                        new Student(){ isOk=true, name="王五", sch_id=3, sex="boy"},
-                         new Student(){ isOk=false, name="小姐", sch_id=1, sex="grid"},
-                          new Student(){ isOk=true, name="小捷", sch_id=3, sex="grid"},
-                           new Student(){ isOk=true, name="小J", sch_id=1, sex="grid"}
+                    new StudentEntity(){ isOk=true, name="小杰", sch_id=1, sex="boy"},
+                     new StudentEntity(){ isOk=false, name="小明", sch_id=2, sex="grid"},
+                      new StudentEntity(){ isOk=true, name="张三", sch_id=3, sex="boy"},
+                       new StudentEntity(){ isOk=false, name="李四", sch_id=2, sex="grid"},
+                        new StudentEntity(){ isOk=true, name="王五", sch_id=3, sex="boy"},
+                         new StudentEntity(){ isOk=false, name="小姐", sch_id=1, sex="grid"},
+                          new StudentEntity(){ isOk=true, name="小捷", sch_id=3, sex="grid"},
+                           new StudentEntity(){ isOk=true, name="小J", sch_id=1, sex="grid"}
                 };
 
                 return student;
@@ -194,39 +197,39 @@ namespace NewTest.Demos
         #endregion
 
         #region 修改数据
-        public List<Student> StudentListUpd
+        public List<StudentEntity> StudentListUpd
         {
             get
             {
-                List<Student> student = new List<Student>()
+                List<StudentEntity> student = new List<StudentEntity>()
                 {
-                    new Student(){  id=1,isOk=true, name="小杰1", sch_id=1, sex="1"},
-                     new Student(){ id=2,isOk=true, name="小明1", sch_id=1, sex="1"},
-                      new Student(){id=3, isOk=true, name="张三1", sch_id=1, sex="1"},
-                       new Student(){id=4, isOk=true, name="李四1", sch_id=1, sex="1"},
-                        new Student(){ id=5,isOk=true, name="王五1", sch_id=1, sex="1"},
-                         new Student(){id=6, isOk=true, name="小姐1", sch_id=1, sex="1"},
-                          new Student(){id=7, isOk=true, name="小捷1", sch_id=1, sex="1"},
-                           new Student(){ id=8,isOk=false, name="小J1", sch_id=1, sex="1"}
+                    new StudentEntity(){  id=1,isOk=true, name="小杰1", sch_id=1, sex="1"},
+                     new StudentEntity(){ id=2,isOk=true, name="小明1", sch_id=1, sex="1"},
+                      new StudentEntity(){id=3, isOk=true, name="张三1", sch_id=1, sex="1"},
+                       new StudentEntity(){id=4, isOk=true, name="李四1", sch_id=1, sex="1"},
+                        new StudentEntity(){ id=5,isOk=true, name="王五1", sch_id=1, sex="1"},
+                         new StudentEntity(){id=6, isOk=true, name="小姐1", sch_id=1, sex="1"},
+                          new StudentEntity(){id=7, isOk=true, name="小捷1", sch_id=1, sex="1"},
+                           new StudentEntity(){ id=8,isOk=false, name="小J1", sch_id=1, sex="1"}
                 };
 
                 return student;
             }
         }
-        public List<Student> StudentListUpd2
+        public List<StudentEntity> StudentListUpd2
         {
             get
             {
-                List<Student> student = new List<Student>()
+                List<StudentEntity> student = new List<StudentEntity>()
                 {
-                    new Student(){  id=1,isOk=false, name="x1", sch_id=1, sex="2"},
-                     new Student(){ id=2,isOk=true, name="小明1", sch_id=1, sex="1"},
-                      new Student(){id=3, isOk=true, name="张三1", sch_id=1, sex="1"},
-                       new Student(){id=4, isOk=true, name="李四1", sch_id=1, sex="1"},
-                        new Student(){ id=5,isOk=true, name="王五1", sch_id=1, sex="1"},
-                         new Student(){id=6, isOk=true, name="小姐1", sch_id=1, sex="1"},
-                          new Student(){id=7, isOk=true, name="小捷1", sch_id=1, sex="1"},
-                           new Student(){ id=8,isOk=false, name="小J1", sch_id=1, sex="1"}
+                    new StudentEntity(){  id=1,isOk=false, name="x1", sch_id=1, sex="2"},
+                     new StudentEntity(){ id=2,isOk=true, name="小明1", sch_id=1, sex="1"},
+                      new StudentEntity(){id=3, isOk=true, name="张三1", sch_id=1, sex="1"},
+                       new StudentEntity(){id=4, isOk=true, name="李四1", sch_id=1, sex="1"},
+                        new StudentEntity(){ id=5,isOk=true, name="王五1", sch_id=1, sex="1"},
+                         new StudentEntity(){id=6, isOk=true, name="小姐1", sch_id=1, sex="1"},
+                          new StudentEntity(){id=7, isOk=true, name="小捷1", sch_id=1, sex="1"},
+                           new StudentEntity(){ id=8,isOk=false, name="小J1", sch_id=1, sex="1"}
                 };
 
                 return student;
@@ -245,39 +248,39 @@ namespace NewTest.Demos
         {
 
             //测试用例
-            var queryable = db.Queryable<Student>().Where(c => c.id < 10)
-                .Select<V_Student>(c => new V_Student { id = c.id, name = c.name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" });
+            var queryable = db.Queryable<StudentEntity>().Where(c => c.id < 10)
+                .Select<V_StudentEntity>(c => new V_StudentEntity { id = c.id, name = c.name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" });
 
             var list = queryable.ToList();
 
 
             //多表操作将Student转换成V_Student
-            var queryable2 = db.Queryable<Student>()
+            var queryable2 = db.Queryable<StudentEntity>()
              .JoinTable<School>((s1, s2) => s1.sch_id == s2.id)
              .Where<School>((s1, s2) => s2.id < 10)
-             .Select<School, V_Student>((s1, s2) => new V_Student() { id = s1.id, name = s1.name, AreaName = "默认地区", SchoolName = s2.name, SubjectName = "NET" });//select new 目前只支持这种写法
+             .Select<School, V_StudentEntity>((s1, s2) => new V_StudentEntity() { id = s1.id, name = s1.name, AreaName = "默认地区", SchoolName = s2.name, SubjectName = "NET" });//select new 目前只支持这种写法
 
             var list2 = queryable2.ToList();
 
 
             //select字符串 转换成V_Student
-            var list3 = db.Queryable<Student>()
+            var list3 = db.Queryable<StudentEntity>()
            .JoinTable<School>((s1, s2) => s1.sch_id == s2.id)
            .Where(s1 => s1.id <= 3)
-           .Select<V_Student>("s1.*,s2.name SchoolName")
+           .Select<V_StudentEntity>("s1.*,s2.name SchoolName")
            .ToList();
 
 
 
             //新容器转换函数的支持 只支持ObjToXXX和Convert.ToXXX
-            var f1 = db.Queryable<InsertTest>().Select<Student>(it => new Student()
+            var f1 = db.Queryable<InsertEntity>().Select<StudentEntity>(it => new StudentEntity()
             {
                 name = it.d1.ObjToString(),
                 id = it.int1.ObjToInt() // 支持ObjToXXX 所有函数
 
             }).ToList();
 
-            var f2 = db.Queryable<InsertTest>().Select<Student>(it => new Student()
+            var f2 = db.Queryable<InsertEntity>().Select<StudentEntity>(it => new StudentEntity()
             {
                 name = Convert.ToString(it.d1),//支持Convet.ToXX所有函数
                 id = it.int1.ObjToInt(),
@@ -285,9 +288,9 @@ namespace NewTest.Demos
 
             }).ToList();
 
-            var f3 = db.Queryable<InsertTest>()
-                .JoinTable<InsertTest>((i1, i2) => i1.id == i2.id)
-                .Select<InsertTest, Student>((i1, i2) => new Student()
+            var f3 = db.Queryable<InsertEntity>()
+                .JoinTable<InsertEntity>((i1, i2) => i1.id == i2.id)
+                .Select<InsertEntity, StudentEntity>((i1, i2) => new StudentEntity()
                 {
                     name = Convert.ToString(i1.d1), //多表查询例子
                     id = i1.int1.ObjToInt(),
@@ -297,7 +300,7 @@ namespace NewTest.Demos
 
 
             //Select 外部参数用法
-            var f4 = db.Queryable<InsertTest>().Where("1=1", new { id = 100 }).Select<Student>(it => new Student()
+            var f4 = db.Queryable<InsertEntity>().Where("1=1", new { id = 100 }).Select<StudentEntity>(it => new StudentEntity()
             {
                 id = "@id".ObjToInt(), //取的是 100 的值
                 name = "张三",//内部参数可以直接写
@@ -305,10 +308,10 @@ namespace NewTest.Demos
                 sch_id = it.id
 
             }).ToList();
-            var f6 = db.Queryable<InsertTest>()
-           .JoinTable<InsertTest>((i1, i2) => i1.id == i2.id)
+            var f6 = db.Queryable<InsertEntity>()
+           .JoinTable<InsertEntity>((i1, i2) => i1.id == i2.id)
            .Where("1=1", new { id = 100, name = "张三", isOk = true }) //外部传参给@id
-           .Select<InsertTest, Student>((i1, i2) => new Student()
+           .Select<InsertEntity, StudentEntity>((i1, i2) => new StudentEntity()
            {
                name = "@name".ObjToString(), //多表查询例子
                id = "@id".ObjToInt(),
@@ -323,8 +326,8 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<Student>().Where(c => c.id < 10)
-                  .Select<V_Student>(c => new V_Student { id = c.id, name = _p.name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
+                db.Queryable<StudentEntity>().Where(c => c.id < 10)
+                  .Select<V_StudentEntity>(c => new V_StudentEntity { id = c.id, name = _p.name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
 
 
             }
@@ -337,8 +340,8 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<Student>().Where(c => c.id < 10)
-                  .Select<V_Student>(c => new V_Student { id = c.id, name = p.name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
+                db.Queryable<StudentEntity>().Where(c => c.id < 10)
+                  .Select<V_StudentEntity>(c => new V_StudentEntity { id = c.id, name = p.name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
 
 
             }
@@ -351,8 +354,8 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<Student>().Where(c => c.id < 10)
-                  .Select<V_Student>(c => new V_Student { id = c.id, name = Getp().name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
+                db.Queryable<StudentEntity>().Where(c => c.id < 10)
+                  .Select<V_StudentEntity>(c => new V_StudentEntity { id = c.id, name = Getp().name, AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
 
 
             }
@@ -365,8 +368,8 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<Student>().Where(c => c.id < 10)
-                  .Select<V_Student>(c => new V_Student { id = c.id, name = Getp2(), AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
+                db.Queryable<StudentEntity>().Where(c => c.id < 10)
+                  .Select<V_StudentEntity>(c => new V_StudentEntity { id = c.id, name = Getp2(), AreaName = "默认地区", SchoolName = "默认学校", SubjectName = "NET" }).ToList();
 
 
             }
@@ -379,9 +382,9 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<InsertTest>()
-                     .JoinTable<InsertTest>((i1, i2) => i1.id == i2.id)
-                     .Select<InsertTest, Student>((i1, i2) => new Student()
+                db.Queryable<InsertEntity>()
+                     .JoinTable<InsertEntity>((i1, i2) => i1.id == i2.id)
+                     .Select<InsertEntity, StudentEntity>((i1, i2) => new StudentEntity()
                      {
                          name = Getp2(), //多表查询例子
                          id = i1.int1.ObjToInt(),
@@ -401,9 +404,9 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<InsertTest>()
-                     .JoinTable<InsertTest>((i1, i2) => i1.id == i2.id)
-                     .Select<InsertTest, Student>((i1, i2) => new Student()
+                db.Queryable<InsertEntity>()
+                     .JoinTable<InsertEntity>((i1, i2) => i1.id == i2.id)
+                     .Select<InsertEntity, StudentEntity>((i1, i2) => new StudentEntity()
                      {
                          name = Getp().name, //多表查询例子
                          id = i1.int1.ObjToInt(),
@@ -423,9 +426,9 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<InsertTest>()
-                     .JoinTable<InsertTest>((i1, i2) => i1.id == i2.id)
-                     .Select<InsertTest, Student>((i1, i2) => new Student()
+                db.Queryable<InsertEntity>()
+                     .JoinTable<InsertEntity>((i1, i2) => i1.id == i2.id)
+                     .Select<InsertEntity, StudentEntity>((i1, i2) => new StudentEntity()
                      {
                          name = Getp().name, //多表查询例子
                          id = i1.int1.ObjToInt(),
@@ -443,9 +446,9 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<InsertTest>()
-                     .JoinTable<InsertTest>((i1, i2) => i1.id == i2.id)
-                     .Select<InsertTest, Student>((i1, i2) => new Student()
+                db.Queryable<InsertEntity>()
+                     .JoinTable<InsertEntity>((i1, i2) => i1.id == i2.id)
+                     .Select<InsertEntity, StudentEntity>((i1, i2) => new StudentEntity()
                      {
                          name = Getp().name, //多表查询例子
                          id = i1.int1.ObjToInt() + 1,
@@ -464,9 +467,9 @@ namespace NewTest.Demos
             {
 
                 //测试用例
-                db.Queryable<InsertTest>()
-                     .JoinTable<InsertTest>((i1, i2) => i1.id == i2.id)
-                     .Select<InsertTest, Student>((i1, i2) => new Student()
+                db.Queryable<InsertEntity>()
+                     .JoinTable<InsertEntity>((i1, i2) => i1.id == i2.id)
+                     .Select<InsertEntity, StudentEntity>((i1, i2) => new StudentEntity()
                      {
                          name = p.name, //多表查询例子
                          sex = Convert.ToString(i2.d1),
@@ -491,11 +494,11 @@ namespace NewTest.Demos
             //解析拉姆达各种情况组合
 
             //基本
-            var t1 = db.Queryable<Student>().Where(it => it.id == 1).ToList();
-            var t2 = db.Queryable<Student>().Where(it => it.id == p.id).ToList();
-            var t3 = db.Queryable<Student>().Where(it => it.id == _p.id).ToList();
-            var t4 = db.Queryable<Student>().Where(it => it.id == Getp().id).ToList();
-            var t5 = db.Queryable<Student>().Where(it => it.id == MyCost.p.id).ToList();
+            var t1 = db.Queryable<StudentEntity>().Where(it => it.id == 1).ToList();
+            var t2 = db.Queryable<StudentEntity>().Where(it => it.id == p.id).ToList();
+            var t3 = db.Queryable<StudentEntity>().Where(it => it.id == _p.id).ToList();
+            var t4 = db.Queryable<StudentEntity>().Where(it => it.id == Getp().id).ToList();
+            var t5 = db.Queryable<StudentEntity>().Where(it => it.id == MyCost.p.id).ToList();
 
 
             //BOOL
@@ -507,41 +510,41 @@ namespace NewTest.Demos
             var t61 = db.Queryable<Student2>("Student").Where(it => it.isOk == _p.isOk).ToList();
             var t71 = db.Queryable<Student2>("Student").Where(it => !it.isOk && !p.isOk == it.isOk).ToList();
             var t91 = db.Queryable<Student2>("Student").Where(it => _p.isOk == false).ToList();
-            var t81 = db.Queryable<Student>().Where(it => it.isOk == false).ToList();
+            var t81 = db.Queryable<StudentEntity>().Where(it => it.isOk == false).ToList();
             var t111 = db.Queryable<Student2>("Student").Where(it => it.isOk && false).ToList();
 
 
             //length
-            var c1 = db.Queryable<Student>().Where(c => c.name.Length > 4).ToList();
-            var c2 = db.Queryable<Student>().Where(c => c.name.Length > _p.name.Length).ToList();
-            var c3 = db.Queryable<Student>().Where(c => c.name.Length > "aa".Length).ToList();
-            var c4 = db.Queryable<Student>().Where(c => c.name.Length > Getp().id).ToList();
+            var c1 = db.Queryable<StudentEntity>().Where(c => c.name.Length > 4).ToList();
+            var c2 = db.Queryable<StudentEntity>().Where(c => c.name.Length > _p.name.Length).ToList();
+            var c3 = db.Queryable<StudentEntity>().Where(c => c.name.Length > "aa".Length).ToList();
+            var c4 = db.Queryable<StudentEntity>().Where(c => c.name.Length > Getp().id).ToList();
 
 
             //Equals
-            var a1 = db.Queryable<Student>().Where(c => c.name.Equals(null)).ToList();
-            var x = new InsertTest() { };
-            var x1 = db.Queryable<Student>().Where(c => c.name.Equals(x.int1)).ToList();
-            var a2 = db.Queryable<Student>().Where(c => c.name.Equals(p.name)).ToList();
-            var a4 = db.Queryable<Student>().Where(c => c.name.Equals(Getp().name)).ToList();
+            var a1 = db.Queryable<StudentEntity>().Where(c => c.name.Equals(null)).ToList();
+            var x = new Models.InsertEntity() { };
+            var x1 = db.Queryable<StudentEntity>().Where(c => c.name.Equals(x.int1)).ToList();
+            var a2 = db.Queryable<StudentEntity>().Where(c => c.name.Equals(p.name)).ToList();
+            var a4 = db.Queryable<StudentEntity>().Where(c => c.name.Equals(Getp().name)).ToList();
 
 
 
             //Contains
-            var s = db.Queryable<Student>().Where(c => c.name.Contains(null)).ToList();
-            var s0 = new InsertTest() { };
-            var s1 = db.Queryable<Student>().Where(c => c.name.Contains(x.v1)).ToList();
-            var s3 = db.Queryable<Student>().Where(c => c.name.Contains(p.name)).ToList();
-            var s4 = db.Queryable<Student>().Where(c => c.name.Contains(Getp().name)).ToList();
+            var s = db.Queryable<StudentEntity>().Where(c => c.name.Contains(null)).ToList();
+            var s0 = new Models.InsertEntity() { };
+            var s1 = db.Queryable<StudentEntity>().Where(c => c.name.Contains(x.v1)).ToList();
+            var s3 = db.Queryable<StudentEntity>().Where(c => c.name.Contains(p.name)).ToList();
+            var s4 = db.Queryable<StudentEntity>().Where(c => c.name.Contains(Getp().name)).ToList();
 
-            var s5 = db.Queryable<Student>().Where(c => c.name.StartsWith(Getp().name)).ToList();
-            var s6 = db.Queryable<Student>().Where(c => c.name.EndsWith(Getp().name)).ToList();
+            var s5 = db.Queryable<StudentEntity>().Where(c => c.name.StartsWith(Getp().name)).ToList();
+            var s6 = db.Queryable<StudentEntity>().Where(c => c.name.EndsWith(Getp().name)).ToList();
 
 
             //异常处理测试,防止程序中出现未知错误
             try
             {
-                var e6 = db.Queryable<Student>().Where(c => Getp().name.StartsWith(c.name)).ToList();
+                var e6 = db.Queryable<StudentEntity>().Where(c => Getp().name.StartsWith(c.name)).ToList();
             }
             catch (Exception ex)
             {
@@ -550,7 +553,7 @@ namespace NewTest.Demos
             }
             try
             {
-                var e6 = db.Queryable<Student>().Where(c => Getp().name.Equals(c.name)).ToList();
+                var e6 = db.Queryable<StudentEntity>().Where(c => Getp().name.Equals(c.name)).ToList();
             }
             catch (Exception ex)
             {
@@ -559,7 +562,7 @@ namespace NewTest.Demos
             }
             try
             {
-                var e6 = db.Queryable<Student>().Where(c => c.name.First() != null).ToList();
+                var e6 = db.Queryable<StudentEntity>().Where(c => c.name.First() != null).ToList();
             }
             catch (Exception ex)
             {
@@ -568,9 +571,9 @@ namespace NewTest.Demos
             }
 
             //组合测试
-            var z = db.Queryable<Student>().Where(c => (c.name.Equals(Getp().name) || c.name == p.name) && true && c.id > 1).ToList();
-            var z23 = db.Queryable<Student>().Where(c => !string.IsNullOrEmpty(c.name) || (c.id == 1 || c.name.Contains(p.name))).ToList();
-            var z2 = db.Queryable<Student>().Where(c => !string.IsNullOrEmpty(c.name) || !string.IsNullOrEmpty(c.name)).ToList();
+            var z = db.Queryable<StudentEntity>().Where(c => (c.name.Equals(Getp().name) || c.name == p.name) && true && c.id > 1).ToList();
+            var z23 = db.Queryable<StudentEntity>().Where(c => !string.IsNullOrEmpty(c.name) || (c.id == 1 || c.name.Contains(p.name))).ToList();
+            var z2 = db.Queryable<StudentEntity>().Where(c => !string.IsNullOrEmpty(c.name) || !string.IsNullOrEmpty(c.name)).ToList();
         }
     }
 }

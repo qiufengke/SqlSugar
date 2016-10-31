@@ -6,12 +6,15 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 using SqlSugar;
+using SqlSugar.PubModel;
+using SqlSugar.Queryable;
 
 namespace NewTest.Demos
 {
     //流水号的功能
-    public class SerialNumber : IDemos
+    public class SerialNumberApp : IDemos
     {
 
         public void Init()
@@ -19,8 +22,8 @@ namespace NewTest.Demos
             Console.WriteLine("启动SerialNumber.Init");
             using (SqlSugarClient db = SugarFactory.GetInstance())//开启数据库连接
             {
-                var dientityValue = db.Insert<Student>(new Student() { });
-                var name = db.Queryable<Student>().Single(it => it.id == dientityValue.ObjToInt()).name;
+                var dientityValue = db.Insert<StudentEntity>(new StudentEntity() { });
+                var name = db.Queryable<StudentEntity>().Single(it => it.id == dientityValue.ObjToInt()).name;
                 Console.WriteLine(name);
 
                 var dientityValue2 = db.Insert<School>(new School() { });
@@ -34,11 +37,11 @@ namespace NewTest.Demos
         /// </summary>
         public class SugarConfigs
         {
-            public static List<PubModel.SerialNumber> NumList = new List<PubModel.SerialNumber>(){
-              new PubModel.SerialNumber(){TableName="Student", FieldName="name", GetNumFunc=()=>{ //GetNumFunc在没有事中使用
+            public static List<SerialNumber> NumList = new List<SerialNumber>(){
+              new SerialNumber(){TableName="Student", FieldName="name", GetNumFunc=()=>{ //GetNumFunc在没有事中使用
                   return "stud-"+DateTime.Now.ToString("yyyy-MM-dd");
               }},
-                new PubModel.SerialNumber(){TableName="School", FieldName="name",  GetNumFuncWithDb=db=>{ //事务中请使用GetNumFuncWithDb保证同一个DB对象,不然会出现死锁
+                new SerialNumber(){TableName="School", FieldName="name",  GetNumFuncWithDb=db=>{ //事务中请使用GetNumFuncWithDb保证同一个DB对象,不然会出现死锁
                   return "ch-"+DateTime.Now.ToString("syyyy-MM-dd");
               }}
             };

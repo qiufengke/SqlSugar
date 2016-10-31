@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
+using SqlSugar.PubModel;
 
-namespace SqlSugar
+namespace SqlSugar.Generating
 {
     /// <summary>
     /// 表名属性

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using SqlSugar.Tool;
 
-namespace SqlSugar
+namespace SqlSugar.Core.ResolveExpress
 {
     //局部类：拉姆达解析公用常量
     internal partial class ResolveExpress
@@ -26,7 +25,7 @@ namespace SqlSugar
         /// <summary>
         /// 拉姆达解析错误
         /// </summary>
-        public const string ExpToSqlError= @"拉姆达解析出错，不是有效的函数，找不到合适函数你可以使用这种字符串写法.Where(""date>dateadd(@date)"",new{date=DateTime.Now})，
+        public const string ExpToSqlError = @"拉姆达解析出错，不是有效的函数，找不到合适函数你可以使用这种字符串写法.Where(""date>dateadd(@date)"",new{date=DateTime.Now})，
                 支持的函数有(请复制到本地查看，数量比较多):
                 db.Queryable<T>().Where(it => it.field == parValue.ObjToString()); 
                 db.Queryable<T>().Where(it => it.field == parValue.ObjToDate());

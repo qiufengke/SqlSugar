@@ -6,13 +6,16 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 using SqlSugar;
+using SqlSugar.PubModel;
+using SqlSugar.Queryable;
 
 namespace NewTest.Demos
 {
     //过滤器用法
     //使用场合(例如：假删除查询，这个时候就可以设置一个过滤器,不需要每次都 .Where(it=>it.IsDelete==true))  
-    public class Filter : IDemos
+    public class FilterTest : IDemos
     {
 
         public void Init()
@@ -24,16 +27,16 @@ namespace NewTest.Demos
                 db.CurrentFilterKey = "role,role2"; //支持多个过滤器以逗号隔开
 
                 //queryable
-                var list = db.Queryable<Student>().ToList(); //通过全局过滤器对需要权限验证的数据进行过滤
+                var list = db.Queryable<StudentEntity>().ToList(); //通过全局过滤器对需要权限验证的数据进行过滤
                 //相当于db.Queryable<Student>().Where("id=@id",new{id=1})
 
 
                 //sqlable
-                var list2 = db.Sqlable().From<Student>("s").SelectToList<Student>("*");
+                var list2 = db.Sqlable().From<StudentEntity>("s").SelectToList<StudentEntity>("*");
                 //同上
 
                 //sqlQuery
-                var list3 = db.SqlQuery<Student>("select * from Student WHERE 1=1");
+                var list3 = db.SqlQuery<StudentEntity>("select * from Student WHERE 1=1");
                 //同上
             }
         }

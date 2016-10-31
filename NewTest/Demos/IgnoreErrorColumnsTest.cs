@@ -11,7 +11,7 @@ using SqlSugar;
 namespace NewTest.Demos
 {
     //排除错误列
-    public class IgnoreErrorColumns : IDemos
+    public class IgnoreErrorColumnsTest : IDemos
     {
 
         public void Init()

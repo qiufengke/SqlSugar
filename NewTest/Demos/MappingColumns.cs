@@ -6,6 +6,9 @@ using NewTest.Dao;
 using System.Data.SqlClient;
 using NewTest.Interface;
 using SqlSugar;
+using SqlSugar.PubModel;
+using SqlSugar.Queryable;
+
 namespace NewTest.Demos
 {
     //别名列的功能

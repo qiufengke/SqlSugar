@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace SqlSugar
+namespace SqlSugar.Generating
 {
- 
+
     /// <summary>
     /// 生成实体格式模版
     /// </summary>

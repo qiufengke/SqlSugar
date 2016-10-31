@@ -1,32 +1,28 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-
-namespace Models
+﻿namespace NewTest.Models
 {
-    public class School
+    public class LanguageEntity
     {
         
      /// <summary>
-     /// Desc:地域ID，关联area表 
+     /// Desc:- 
      /// Default:- 
      /// Nullable:False 
      /// </summary>
-        public int id {get;set;}
+        public int Id {get;set;}
 
      /// <summary>
      /// Desc:- 
      /// Default:- 
      /// Nullable:True 
      /// </summary>
-        public string name {get;set;}
+        public int? LanguageId {get;set;}
 
      /// <summary>
      /// Desc:- 
      /// Default:- 
      /// Nullable:True 
      /// </summary>
-        public int? AreaId {get;set;}
+        public string Name {get;set;}
 
     }
 }

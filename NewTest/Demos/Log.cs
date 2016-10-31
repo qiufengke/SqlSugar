@@ -6,7 +6,9 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 using SqlSugar;
+using SqlSugar.Queryable;
 
 namespace NewTest.Demos
 {
@@ -20,8 +22,8 @@ namespace NewTest.Demos
             using (var db = SugarDemoDao.GetInstance())
             {
 
-                var a1 = db.Queryable<Student>().Where(it => it.id == 1).ToList();
-                var a2 = db.Queryable<Student>().OrderBy(it => it.id).ToList();
+                var a1 = db.Queryable<StudentEntity>().Where(it => it.id == 1).ToList();
+                var a2 = db.Queryable<StudentEntity>().OrderBy(it => it.id).ToList();
             }
         }
 

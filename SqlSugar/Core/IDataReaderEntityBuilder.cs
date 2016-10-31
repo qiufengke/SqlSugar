@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using SqlSugar.PubModel;
+using SqlSugar.Tool;
 
-namespace SqlSugar
+namespace SqlSugar.Core
 {
     /// <summary>
     /// ** 描述：DataReader实体生成

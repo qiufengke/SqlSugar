@@ -6,11 +6,12 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 
 namespace NewTest.Demos
 {
     //删除的例子
-    public class Delete:IDemos
+    public class DeleteTest:IDemos
     {
 
         public void Init()

@@ -7,6 +7,10 @@ using System.Reflection;
 using System.Data;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using SqlSugar.Core.ResolveExpress;
+using SqlSugar.Generating;
+using SqlSugar.PubModel;
+using SqlSugar.Tool;
 
 namespace SqlSugar
 {

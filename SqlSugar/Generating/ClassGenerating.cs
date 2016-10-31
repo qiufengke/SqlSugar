@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
-using System.Data.SqlClient;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
+using SqlSugar.Tool;
 
-namespace SqlSugar
+namespace SqlSugar.Generating
 {
     /// <summary>
     /// ** 描述：实体生成类
@@ -169,7 +167,7 @@ namespace SqlSugar
                     {
                         preAction(tableName);
                     }
-                    var currentTable = db.GetDataTable(string.Format(SqlSugarTool.GetSelectTopSql(), GetTableNameWithSchema(db,tableName).GetTranslationSqlName()));
+                    var currentTable = db.GetDataTable(string.Format(SqlSugarTool.GetSelectTopSql(), GetTableNameWithSchema(db, tableName).GetTranslationSqlName()));
                     if (callBack != null)
                     {
                         var tableColumns = GetTableColumns(db, tableName);
@@ -208,7 +206,7 @@ namespace SqlSugar
                 foreach (DataRow dr in tables.Rows)
                 {
                     string tableName = dr["name"].ToString();
-                    var currentTable = db.GetDataTable(string.Format(SqlSugarTool.GetSelectTopSql(),GetTableNameWithSchema(db,tableName).GetTranslationSqlName()));
+                    var currentTable = db.GetDataTable(string.Format(SqlSugarTool.GetSelectTopSql(), GetTableNameWithSchema(db, tableName).GetTranslationSqlName()));
                     string className = db.GetClassTypeByTableName(tableName);
                     callBack(tables, className, tableName);
                 }
@@ -237,7 +235,7 @@ namespace SqlSugar
                     string tableName = dr["name"].ToString().ToLower();
                     if (tableNames.Any(it => it.ToLower() == tableName))
                     {
-                        var currentTable = db.GetDataTable(string.Format(SqlSugarTool.GetSelectTopSql(), GetTableNameWithSchema(db,tableName).GetTranslationSqlName()));
+                        var currentTable = db.GetDataTable(string.Format(SqlSugarTool.GetSelectTopSql(), GetTableNameWithSchema(db, tableName).GetTranslationSqlName()));
                         var tableColumns = GetTableColumns(db, tableName);
                         string className = db.GetClassTypeByTableName(tableName);
                         var classCode = DataTableToClass(currentTable, className, nameSpace, tableColumns);
@@ -322,7 +320,7 @@ namespace SqlSugar
         /// <param name="action">string为表名</param>
         public void ForeachTables(SqlSugarClient db, Action<string> action)
         {
-            Check.ArgumentNullException(action,"ForeachTables.action不能为null。");
+            Check.ArgumentNullException(action, "ForeachTables.action不能为null。");
             string cacgeKey = "ClassGenerating.ForeachTables";
             var cm = CacheManager<List<string>>.GetInstance();
             List<string> tables = null;
@@ -350,12 +348,14 @@ namespace SqlSugar
         /// <param name="db"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public string GetTableNameWithSchema(SqlSugarClient db,string tableName) {
-          
-            var list=SqlSugarTool.GetSchemaList(db).Where(it => it.Value == tableName).ToList();
-            if (list.Any()) {
-                Check.Exception(list.Count != 1,tableName+"不能同时存在两个Schema,请重命名表名。");
-                return string.Format("{0}.{1}",list.Single().Key,list.Single().Value);
+        public string GetTableNameWithSchema(SqlSugarClient db, string tableName)
+        {
+
+            var list = SqlSugarTool.GetSchemaList(db).Where(it => it.Value == tableName).ToList();
+            if (list.Any())
+            {
+                Check.Exception(list.Count != 1, tableName + "不能同时存在两个Schema,请重命名表名。");
+                return string.Format("{0}.{1}", list.Single().Key, list.Single().Value);
             }
             return tableName;
         }

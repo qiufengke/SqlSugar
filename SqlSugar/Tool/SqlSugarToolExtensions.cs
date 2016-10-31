@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
+using SqlSugar.Tool;
 
 namespace SqlSugar
 {
@@ -162,7 +163,7 @@ namespace SqlSugar
         internal static string[] ArrayWhere(this string[] thisValue, Func<string, bool> expression)
         {
             if (thisValue == null) return null;
-            thisValue= thisValue.Where(expression).ToArray();
+            thisValue = thisValue.Where(expression).ToArray();
             return thisValue;
         }
 
@@ -175,7 +176,7 @@ namespace SqlSugar
         internal static string[] ArrayAdd(this string[] thisValue, params string[] items)
         {
             if (thisValue == null) thisValue = new string[] { };
-            var reval= thisValue.ToList();
+            var reval = thisValue.ToList();
             reval.AddRange(items);
             thisValue = reval.ToArray();
             return thisValue;
@@ -192,7 +193,7 @@ namespace SqlSugar
             if (thisValue == null) thisValue = new string[] { };
             var reval = thisValue.ToList();
             reval.Remove(item);
-            thisValue= reval.ToArray();
+            thisValue = reval.ToArray();
             return thisValue;
         }
     }

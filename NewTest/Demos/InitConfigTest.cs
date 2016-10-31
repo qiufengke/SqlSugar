@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using NewTest.Dao;
 using NewTest.Interface;
 using SqlSugar;
+using SqlSugar.PubModel;
 
 namespace NewTest.Demos
 {
     /// <summary>
     ///如何避免初始化SqlSugarClient时，参数赋值引起的性能的浪费
     /// </summary>
-    public class InitConfig : IDemos
+    public class InitConfigTest : IDemos
     {
         public void Init()
         {
@@ -34,15 +35,15 @@ namespace NewTest.Demos
             //别名表 
             public static List<KeyValue> tableMappingList;
             //流水号
-            public static List<PubModel.SerialNumber> serialNumber = new List<PubModel.SerialNumber>
+            public static List<SerialNumber> serialNumber = new List<SerialNumber>
             {
-                new PubModel.SerialNumber
+                new SerialNumber
                 {
                     TableName = "Student",
                     FieldName = "name",
                     GetNumFunc = () => { return "stud-" + DateTime.Now.ToString("yyyy-MM-dd"); }
                 },
-                new PubModel.SerialNumber
+                new SerialNumber
                 {
                     TableName = "School",
                     FieldName = "name",

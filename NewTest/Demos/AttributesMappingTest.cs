@@ -6,12 +6,16 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 using SqlSugar;
+using SqlSugar.Generating;
+using SqlSugar.Queryable;
+
 namespace NewTest.Demos
 {
     //通过属性的方法设置别名表和别名字段（主键和自添列都无需设置 SQLSUGAR会帮你自动处理）
     //注意:【属性映射和 (SetMappingTables、SetMappingColumns)方式映射 2种选其中一，不清楚底层缓存机质不建议同时使用】
-    public class AttributesMapping : IDemos
+    public class AttributesMappingTest : IDemos
     {
 
         public void Init()
@@ -22,11 +26,11 @@ namespace NewTest.Demos
 
                 //查询
                 var list = db.Queryable<TestStudent>()
-                    .Where(it => it.className.Contains("小")).OrderBy(it => it.classSchoolId).Select<V_Student>(it => new V_Student() { id = it.classId, name = it.className }).ToList();
+                    .Where(it => it.className.Contains("小")).OrderBy(it => it.classSchoolId).Select<V_StudentEntity>(it => new V_StudentEntity() { id = it.classId, name = it.className }).ToList();
                 var list2 = db.Queryable<TestStudent>()
                     .JoinTable<TestSchool>((s1, s2) => s1.classSchoolId == s2.classId)
                     .OrderBy<TestSchool>((s1, s2) => s1.classId)
-                    .Select<TestStudent, TestSchool, V_Student>((s1, s2) => new V_Student() { id = s1.classId, name = s1.className, SchoolName = s2.className }).ToList();
+                    .Select<TestStudent, TestSchool, V_StudentEntity>((s1, s2) => new V_StudentEntity() { id = s1.classId, name = s1.className, SchoolName = s2.className }).ToList();
 
                 //添加
                 TestStudent s = new TestStudent();

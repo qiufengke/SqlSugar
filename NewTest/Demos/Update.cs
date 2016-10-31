@@ -6,6 +6,7 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 
 namespace NewTest.Demos
 {
@@ -43,7 +44,7 @@ namespace NewTest.Demos
                 //设置不更新列
                 db.DisableUpdateColumns = new string[] { "CreateTime" };//设置CreateTime不更新
 
-                TestUpdateColumns updObj = new TestUpdateColumns()
+                TestUpdateColumnsEntity updObj = new TestUpdateColumnsEntity()
                 {
                     VGUID = Guid.Parse("542b5a27-6984-47c7-a8ee-359e483c8470"),
                     Name = "xx",
@@ -66,7 +67,7 @@ namespace NewTest.Demos
 
 
                 //更新字符串
-                db.Update<Student>("sch_id=sch_id+1", it => it.id == 1);
+                db.Update<StudentEntity>("sch_id=sch_id+1", it => it.id == 1);
 
 
                 //清空禁止更新列
@@ -78,16 +79,16 @@ namespace NewTest.Demos
 
 
 
-        private static List<Student> GetUpdateList()
+        private static List<StudentEntity> GetUpdateList()
         {
-            List<Student> list = new List<Student>()
+            List<StudentEntity> list = new List<StudentEntity>()
                 {
-                     new Student()
+                     new StudentEntity()
                 {
                     id=1001,
                      name="1张1001"+new Random().Next(1,int.MaxValue)
                 },
-                 new Student()
+                 new StudentEntity()
                 {
                     id=1002,
                     name="1张1002"+new Random().Next(1,int.MaxValue)
@@ -95,11 +96,11 @@ namespace NewTest.Demos
                 };
             return list;
         }
-        private static List<Student> GetUpdateList2()
+        private static List<StudentEntity> GetUpdateList2()
         {
-            List<Student> list = new List<Student>()
+            List<StudentEntity> list = new List<StudentEntity>()
                 {
-                     new Student()
+                     new StudentEntity()
                 {
                     id=1010,
                     name="小妹"+new Random().Next(1,int.MaxValue),
@@ -107,7 +108,7 @@ namespace NewTest.Demos
                     sch_id=2,
                     sex="gril"
                 },
-                 new Student()
+                 new StudentEntity()
                 {
                     id=1011,
                     name="小子"+new Random().Next(1,int.MaxValue),

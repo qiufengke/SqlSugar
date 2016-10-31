@@ -7,10 +7,12 @@ using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
 using SqlSugar;
+using SqlSugar.Tool;
+
 namespace NewTest.Demos
 {
     //公用函数
-    public class PubMethod:IDemos
+    public class PubMethod : IDemos
     {
 
         public void Init()
@@ -32,7 +34,7 @@ namespace NewTest.Demos
                 catch (Exception ex)
                 {
 
-                     Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.Message);
                 }
 
                 //SqlLikeWordEncode 处理LIKE特殊字符

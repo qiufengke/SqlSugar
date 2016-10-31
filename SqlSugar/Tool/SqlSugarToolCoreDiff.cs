@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using System.Web;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
 
-namespace SqlSugar
+namespace SqlSugar.Tool
 {
     /// <summary>
     /// SqlSugarTool局部类与Core有差异的部分(方便工具移植到.NetCore版本)

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Models;
 using NewTest.Dao;
 using NewTest.Interface;
+using NewTest.Models;
 using SqlSugar;
+using SqlSugar.PubModel;
+using SqlSugar.Queryable;
 
 namespace NewTest.Demos
 {
@@ -17,14 +20,14 @@ namespace NewTest.Demos
             // 单个设置
             using (var db = SugarDao.GetInstance())
             {
-                var list = db.Queryable<V_Student>("Student").ToList(); // 查询的是 select * from student 而我的实体名称为V_Student
+                var list = db.Queryable<V_StudentEntity>("Student").ToList(); // 查询的是 select * from student 而我的实体名称为V_Student
             }
 
 
             // 全局设置
             using (var db = SugarFactory.GetInstance())
             {
-                var list = db.Queryable<V_Student>().ToList(); // 查询的是 select * from student 而我的实体名称为V_Student
+                var list = db.Queryable<V_StudentEntity>().ToList(); // 查询的是 select * from student 而我的实体名称为V_Student
             }
         }
 

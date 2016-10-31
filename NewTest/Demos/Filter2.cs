@@ -6,7 +6,10 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
+using NewTest.Models;
 using SqlSugar;
+using SqlSugar.PubModel;
+using SqlSugar.Queryable;
 
 namespace NewTest.Demos
 {
@@ -23,13 +26,13 @@ namespace NewTest.Demos
                 //设置走哪个过滤器
                 db.CurrentFilterKey = "role1";
                 //queryable
-                var list = db.Queryable<Student>().ToJson(); //where id=1 , 可以查看id和name
+                var list = db.Queryable<StudentEntity>().ToJson(); //where id=1 , 可以查看id和name
 
 
                 //设置走哪个过滤器
                 db.CurrentFilterKey = "role2";
                 //queryable
-                var list2 = db.Queryable<Student>().ToJson(); //where id=2 , 可以查看name
+                var list2 = db.Queryable<StudentEntity>().ToJson(); //where id=2 , 可以查看name
 
             }
         }

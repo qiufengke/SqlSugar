@@ -8,6 +8,7 @@ using Dapper.Contrib;
 using Dapper.Contrib.Extensions;
 using Models.PkDapper;
 using SqlSugar;
+using SqlSugar.Queryable;
 using SyntacticSugar;
 namespace PkDapper.Demos
 {

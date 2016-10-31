@@ -7,11 +7,13 @@ using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
 using SqlSugar;
+using SqlSugar.Generating;
+using SqlSugar.PubModel;
 
 namespace NewTest.Demos
 {
     //生成实体函数
-    public class CreateClass : IDemos
+    public class CreateClassTest : IDemos
     {
 
         public void Init()

@@ -8,6 +8,8 @@ using Dapper;
 using Dapper.Contrib;
 using Dapper.Contrib.Extensions;
 using Models.PkDapper;
+using SqlSugar.Queryable;
+
 namespace PkDapper.Demos
 {
     public class WarmUp
