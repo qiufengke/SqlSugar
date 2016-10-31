@@ -11,7 +11,7 @@ namespace NewTest.Demos
 {
     //行过滤加列过滤
     //权限管理的最佳设计
-    public class Filter2 : IDemos
+    public class Filter2Test : IDemos
     {
         public void Init()
         {

@@ -93,7 +93,7 @@ namespace NewTest
                     break;
                 // 过滤器2
                 case "filter2":
-                    demo = new Filter2();
+                    demo = new Filter2Test();
                     break;
                 // 流水号功能
                 case "serialnumber":

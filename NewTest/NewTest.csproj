@@ -60,7 +60,7 @@
     <Compile Include="Demos\DeleteTest.cs" />
     <Compile Include="Demos\EnumDemoTest.cs" />
     <Compile Include="Demos\FilterTest.cs" />
-    <Compile Include="Demos\Filter2.cs" />
+    <Compile Include="Demos\Filter2Test.cs" />
     <Compile Include="Demos\PubMethodTest.cs" />
     <Compile Include="Demos\SerializerDateFormatTest.cs" />
     <Compile Include="Demos\SqlPageModelTest.cs" />
