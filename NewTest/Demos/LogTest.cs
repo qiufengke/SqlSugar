@@ -13,7 +13,7 @@ using SqlSugar.Queryable;
 namespace NewTest.Demos
 {
     //日志记录功能
-    public class Log : IDemos
+    public class LogTest : IDemos
     {
        
         public void Init()

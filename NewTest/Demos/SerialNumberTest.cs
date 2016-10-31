@@ -14,7 +14,7 @@ using SqlSugar.Queryable;
 namespace NewTest.Demos
 {
     //流水号的功能
-    public class SerialNumberApp : IDemos
+    public class SerialNumberTest : IDemos
     {
 
         public void Init()

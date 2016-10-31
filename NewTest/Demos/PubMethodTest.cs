@@ -12,7 +12,7 @@ using SqlSugar.Tool;
 namespace NewTest.Demos
 {
     //公用函数
-    public class PubMethod : IDemos
+    public class PubMethodTest : IDemos
     {
 
         public void Init()

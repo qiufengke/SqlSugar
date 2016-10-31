@@ -14,7 +14,7 @@ namespace NewTest.Demos
 {
     public class MyCost { public static Student2 p = new Student2() { id = 5, name = "张表", isOk = true };}
     //单元测试
-    public class Test : IDemos
+    public class UnitTest : IDemos
     {
         public Student2 Getp() { return new Student2() { id = 4, name = "张表", isOk = true }; }
         public string Getp2() { return new Student2() { id = 4, name = "张表", isOk = true }.name; }

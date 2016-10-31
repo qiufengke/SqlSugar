@@ -11,7 +11,7 @@ using SqlSugar.Queryable;
 namespace NewTest.Demos
 {
     // 别名表的功能
-    public class MappingTable : IDemos
+    public class MappingTableTest : IDemos
     {
         public void Init()
         {

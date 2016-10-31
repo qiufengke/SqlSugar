@@ -11,7 +11,7 @@ using SqlSugar;
 namespace NewTest.Demos
 {
     //事务
-    public class Tran : IDemos
+    public class TranTest : IDemos
     {
 
         public void Init()

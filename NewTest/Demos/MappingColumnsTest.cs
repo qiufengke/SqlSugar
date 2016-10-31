@@ -12,7 +12,7 @@ using SqlSugar.Queryable;
 namespace NewTest.Demos
 {
     //别名列的功能
-    public class MappingColumns : IDemos
+    public class MappingColumnsTest : IDemos
     {
 
         public void Init()

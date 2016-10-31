@@ -12,7 +12,7 @@ using SqlSugar.Queryable;
 namespace NewTest.Demos
 {
     //设置ToJson的日期格式
-    public class SerializerDateFormat : IDemos
+    public class SerializerDateFormatTest : IDemos
     {
 
         public void Init()

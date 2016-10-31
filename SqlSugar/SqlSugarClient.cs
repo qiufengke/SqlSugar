@@ -360,7 +360,6 @@ namespace SqlSugar
         public Queryable<T> Queryable<T>(string tableName = "") where T : new()
         {
             InitAttributes<T>();
-            var queryable = new Queryable<T>();
             if (string.IsNullOrEmpty(tableName))
             {
                 string name = typeof(T).Name;
@@ -368,14 +367,15 @@ namespace SqlSugar
                 if (_mappingTableList.IsValuable())
                 {
                     var o = _mappingTableList.First(x => x.Key == name);
-                    queryable.TableName = o != null ? o.Value : name;
+                    tableName = o != null ? o.Value : name;
                 }
             }
-            else
+            var queryable = new Queryable<T>
             {
-                queryable.DB = this;
-                queryable.TableName = tableName;
-            }
+                DB = this,
+                TableName = tableName
+            };
+
             // 全局过滤器
             if (CurrentFilterKey.IsValuable())
             {

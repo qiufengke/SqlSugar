@@ -11,7 +11,7 @@ using NewTest.Models;
 namespace NewTest.Demos
 {
     //更新
-    public class Update : IDemos
+    public class UpdateTest : IDemos
     {
 
         public void Init()

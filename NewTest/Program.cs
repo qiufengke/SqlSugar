@@ -19,7 +19,7 @@ namespace NewTest
         private static void Main(string[] args)
         {
             // 设置执行的DEMO
-            var switchOn = "mappingtable";
+            var switchOn = "select";
             IDemos demo = null;
             switch (switchOn)
             {
@@ -27,7 +27,7 @@ namespace NewTest
 
                 // 查询
                 case "select":
-                    demo = new Select();
+                    demo = new SelectTest();
                     break;
                 // 删除
                 case "delete":
@@ -39,7 +39,7 @@ namespace NewTest
                     break;
                 // 更新
                 case "update":
-                    demo = new Update();
+                    demo = new UpdateTest();
                     break;
                 // 基层函数的用法
                 case "ado":
@@ -47,7 +47,7 @@ namespace NewTest
                     break;
                 // 事务
                 case "tran":
-                    demo = new Tran();
+                    demo = new TranTest();
                     break;
                 // 创建实体函数
                 case "createclass":
@@ -55,7 +55,7 @@ namespace NewTest
                     break;
                 // 日志记录
                 case "log":
-                    demo = new Log();
+                    demo = new LogTest();
                     break;
                 // 枚举支持
                 case "enum":
@@ -72,11 +72,11 @@ namespace NewTest
                     break;
                 // 别名表
                 case "mappingtable":
-                    demo = new MappingTable();
+                    demo = new MappingTableTest();
                     break;
                 // 别名列
                 case "mappingcolumns":
-                    demo = new MappingColumns();
+                    demo = new MappingColumnsTest();
                     break;
                 // 通过属性的方法设置别名表和别名字段
                 case "attributesmapping":
@@ -97,7 +97,7 @@ namespace NewTest
                     break;
                 // 流水号功能
                 case "serialnumber":
-                    demo = new SerialNumberApp();
+                    demo = new SerialNumberTest();
                     break;
                 // 多语言支持 http://www.cnblogs.com/sunkaixuan/p/5709583.html
                 // 多库并行计算 http://www.cnblogs.com/sunkaixuan/p/5046517.html
@@ -112,15 +112,15 @@ namespace NewTest
 
                 // 公开函数数
                 case "pubmethod":
-                    demo = new PubMethod();
+                    demo = new PubMethodTest();
                     break;
                 // Sql2012分页的支持
                 case "sqlpagemodel":
-                    demo = new SqlPageModel();
+                    demo = new SqlPageModelTest();
                     break;
                 // 设置ToJson的日期格式
                 case "serializerdateformat":
-                    demo = new SerializerDateFormat();
+                    demo = new SerializerDateFormatTest();
                     break;
 
                 #endregion
@@ -128,7 +128,7 @@ namespace NewTest
                 #region 测试用例
 
                 case "test":
-                    demo = new Test();
+                    demo = new UnitTest();
                     break;
                 default:
                     Console.WriteLine("switchOn的值错误，请输入正确的 case");

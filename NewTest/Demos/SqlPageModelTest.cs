@@ -13,7 +13,7 @@ using SqlSugar.Queryable;
 namespace NewTest.Demos
 {
     //设置分页模式
-    public class SqlPageModel : IDemos
+    public class SqlPageModelTest : IDemos
     {
 
         public void Init()
