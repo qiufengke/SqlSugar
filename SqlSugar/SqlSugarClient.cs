@@ -346,53 +346,6 @@ namespace SqlSugar
 
 
         #region queryable
-        /// <summary>
-        /// 创建拉姆达查询对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public Queryable<T> Queryable<T>() where T : new()
-        {
-            InitAttributes<T>();
-            var queryable = new Queryable<T>() { DB = this, TableName = typeof(T).Name };
-            //别名表
-            if (_mappingTableList.IsValuable())
-            {
-                string name = typeof(T).Name;
-                if (_mappingTableList.Any(it => it.Key == name))
-                {
-                    queryable.TableName = _mappingTableList.First(it => it.Key == name).Value;
-                }
-            }
-            //全局过滤器
-            if (CurrentFilterKey.IsValuable())
-            {
-                if (_filterRows.IsValuable())
-                {
-                    string keys = CurrentFilterKey;
-                    foreach (var key in keys.Split(','))
-                    {
-                        AddFilter<T>(queryable, key);
-                    }
-                }
-                if (_filterColumns.IsValuable())
-                {
-                    var keys = CurrentFilterKey.Split(',');
-                    foreach (var key in keys)
-                    {
-                        if (_filterColumns.ContainsKey(key))
-                        {
-                            var columns = _filterColumns[key];
-                            Check.Exception(queryable.SelectValue.IsValuable(), "对不起列过滤只能设一个，行过滤可以设多个。");
-                            queryable.SelectValue = string.Join(",", columns);
-                        }
-                    }
-                }
-            }
-            return queryable;
-
-        }
-
 
         /// <summary>
         /// 创建拉姆达查询对象
@@ -400,11 +353,26 @@ namespace SqlSugar
         /// <typeparam name="T"></typeparam>
         /// <param name="tableName">T类型对应的真实表名</param>
         /// <returns></returns>
-        public Queryable<T> Queryable<T>(string tableName) where T : new()
+        public Queryable<T> Queryable<T>(string tableName = "") where T : new()
         {
             InitAttributes<T>();
-            var queryable = new Queryable<T>() { DB = this, TableName = tableName };
-            //全局过滤器
+            var queryable = new Queryable<T>();
+            if (string.IsNullOrEmpty(tableName))
+            {
+                string name = typeof(T).Name;
+                // 别名表
+                if (_mappingTableList.IsValuable())
+                {
+                    var o = _mappingTableList.First(x => x.Key == name);
+                    queryable.TableName = o != null ? o.Value : name;
+                }
+            }
+            else
+            {
+                queryable.DB = this;
+                queryable.TableName = tableName;
+            }
+            // 全局过滤器
             if (CurrentFilterKey.IsValuable())
             {
                 if (_filterRows.IsValuable())
@@ -431,6 +399,7 @@ namespace SqlSugar
             }
             return queryable;
         }
+
         #endregion
 
 

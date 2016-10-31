@@ -112,7 +112,6 @@ namespace SqlSugar
             }
         }
 
-
         /// <summary>
         /// 设置参数Size
         /// </summary>
@@ -209,7 +208,6 @@ namespace SqlSugar
         /// <returns></returns>
         internal static Dictionary<string, object> GetObjectToDictionary(object obj)
         {
-
             Dictionary<string, object> reval = new Dictionary<string, object>();
             if (obj == null) return reval;
             var type = obj.GetType();

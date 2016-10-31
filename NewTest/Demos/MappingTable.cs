@@ -14,10 +14,10 @@ namespace NewTest.Demos
             Console.WriteLine("启动MappingTable.Init");
 
             // 单个设置
-            using (var db = SugarDao.GetInstance())
-            {
-                var list = db.Queryable<V_Student>("Student").ToList(); // 查询的是 select * from student 而我的实体名称为V_Student
-            }
+            //using (var db = SugarDao.GetInstance())
+            //{
+            //    var list = db.Queryable<V_Student>("Student").ToList(); // 查询的是 select * from student 而我的实体名称为V_Student
+            //}
 
 
             // 全局设置
