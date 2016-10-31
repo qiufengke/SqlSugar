@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SqlSugar.PubModel;
 
 namespace SqlSugar.Tool
 {
@@ -16,6 +17,7 @@ namespace SqlSugar.Tool
         /// 多语言视图的前缀
         /// </summary>
         public static string PreSuffix = "_$_";
+
         /// <summary>
         /// 获取所有需要生成多语言的视图名称
         /// </summary>
@@ -23,32 +25,28 @@ namespace SqlSugar.Tool
         /// <returns></returns>
         internal static List<string> GetLanguageViewNameList(SqlSugarClient db)
         {
-            string key = "LanguageHelper.GetViewNameList";
+            var key = "LanguageHelper.GetViewNameList";
             var cm = CacheManager<List<string>>.GetInstance();
             if (cm.ContainsKey(key))
             {
                 return cm[key];
             }
-            else
-            {
-                var list = db.SqlQuery<string>(@"
+            var list = db.SqlQuery<string>(@"
 	            select a.name from sys.objects a 
 	            JOIN sys.sql_modules b on a.[object_id]=b.[object_id]
 	            where [type]='v' 
 		        and b.[definition] like '%" + db.Language.ReplaceViewStringKey + @"%'
-		        and a.name not like '%"+PreSuffix+@"%'
+		        and a.name not like '%" + PreSuffix + @"%'
                 ").ToList();
-                cm.Add(key, list, cm.Day);
-                return list;
-            }
-
+            cm.Add(key, list, cm.Day);
+            return list;
         }
 
         /// <summary>
         /// 创建多语言视图，带有LanguageId=1的所有有视图1替换成languageValue 并且新创视图 名称为 原有视图名+_$_+suffix
         /// </summary>
         /// <returns></returns>
-        public static void UpdateView(PubModel.Language lan, SqlSugarClient db)
+        public static void UpdateView(Language lan, SqlSugarClient db)
         {
             if (lan == null) return;
             if (lan.Suffix.IsNullOrEmpty())
@@ -66,7 +64,7 @@ namespace SqlSugar.Tool
                 lan.Suffix = PreSuffix + lan.Suffix;
             }
 
-            string sql = @"
+            var sql = @"
 
 	                        --验证参数传递规则
 	                        if LEFT(ltrim(@Suffix),3)<>'" + PreSuffix + @"'
@@ -75,7 +73,7 @@ namespace SqlSugar.Tool
 		                        return;
 	                        end
 	                        else
-	                        if(ISNULL("+lan.LanguageValue+@",'')='')
+	                        if(ISNULL(" + lan.LanguageValue + @",'')='')
 	                        begin
 		                        raiserror('参数传递格式不规范',16,1)
 		                        return;
@@ -90,7 +88,7 @@ namespace SqlSugar.Tool
 	                        JOIN sys.sql_modules b on a.[object_id]=b.[object_id]
 	                        where [type]='v' 
 		                          and b.[definition] like '%" + lan.ReplaceViewStringKey + @"%'
-		                          and a.name not like '%"+PreSuffix+@"%'
+		                          and a.name not like '%" + PreSuffix + @"%'
 	                        --打开处理器
 	                        open my_cursor
 	                        fetch next from my_cursor into @name,@definition
@@ -123,8 +121,7 @@ namespace SqlSugar.Tool
 	                        deallocate my_cursor
 ";
 
-            db.ExecuteCommand(sql, new { Suffix = lan.Suffix });
-
+            db.ExecuteCommand(sql, new { lan.Suffix });
         }
     }
 }
