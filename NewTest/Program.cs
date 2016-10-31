@@ -16,7 +16,7 @@ namespace NewTest
         {
 
             //设置执行的DEMO
-            string switchOn = "insert";
+            string switchOn = "mappingtable";
             IDemos demo = null;
             switch (switchOn)
             {
@@ -43,12 +43,12 @@ namespace NewTest
                 case "enum": demo = new EnumDemo(); break;
 
 
-                
+
                 /****************************实体映射**************************************/
                 //自动排除非数据库列
                 case "ignoreerrorcolumns": demo = new IgnoreErrorColumns(); break;
                 //别名表
-                case "mappingtable":demo=new MappingTable(); break;
+                case "mappingtable": demo = new MappingTable(); break;
                 //别名列
                 case "mappingcolumns": demo = new MappingColumns(); break;
                 //通过属性的方法设置别名表和别名字段
@@ -76,11 +76,11 @@ namespace NewTest
                 //公开函数数
                 case "pubmethod": demo = new PubMethod(); break;
                 //Sql2012分页的支持
-                case "sqlpagemodel": demo=new SqlPageModel(); break;
+                case "sqlpagemodel": demo = new SqlPageModel(); break;
                 //设置ToJson的日期格式
-                case "serializerdateformat":demo =new SerializerDateFormat();break;
+                case "serializerdateformat": demo = new SerializerDateFormat(); break;
 
-    
+
 
                 /****************************测试用例**************************************/
                 case "test": demo = new Test(); break;

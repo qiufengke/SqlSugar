@@ -40,8 +40,6 @@ namespace NewTest.Demos
 
             using (var db = SugarDao.GetInstance())
             {
-
-
                 //查询所有
                 var student = db.Queryable<Student>().ToList();
                 var studentDynamic = db.Queryable<Student>().ToDynamic();
@@ -145,8 +143,8 @@ namespace NewTest.Demos
                 //2表关联查询并分页
                 var jList2 = db.Queryable<Student>()
                 .JoinTable<School>((s1, s2) => s1.sch_id == s2.id) //默认left join
-                    //如果要用inner join这么写
-                    //.JoinTable<School>((s1, s2) => s1.sch_id == s2.id ,JoinType.INNER)
+                                                                   //如果要用inner join这么写
+                                                                   //.JoinTable<School>((s1, s2) => s1.sch_id == s2.id ,JoinType.INNER)
                 .Where<School>((s1, s2) => s1.id > 1)
                 .OrderBy(s1 => s1.name)
                 .Skip(10)
@@ -188,7 +186,7 @@ namespace NewTest.Demos
 
                 //Join子查询语句加分页的写法
                 var childQuery = db.Queryable<Area>().Where("id=@id").Select(it => new { id = it.id }).ToSql();//创建子查询SQL
-                string childTableName =SqlSugarTool.PackagingSQL(childQuery.Key);//将SQL语句用()包成表
+                string childTableName = SqlSugarTool.PackagingSQL(childQuery.Key);//将SQL语句用()包成表
                 var queryable = db.Queryable<Student>()
                  .JoinTable<School>((s1, s2) => s1.sch_id == s2.id)  //LEFT JOIN School  s2 ON  ( s1.sch_id  = s2.id )  
                  .JoinTable(childTableName, "a1", "a1.id=s2.areaid", new { id = 1 }, JoinType.INNER) //INNER JOIN (SELECT *  FROM [Area]   WHERE 1=1  AND id=@id   ) a1 ON a1.id=s2.areaid
@@ -236,14 +234,14 @@ namespace NewTest.Demos
                 var convert2 = db.Queryable<Student>().Where(c => c.id == Convert.ToInt32("1")).ToList();
                 var convert3 = db.Queryable<Student>().Where(c => c.name == par2.ToLower()).ToList();
                 var convert4 = db.Queryable<Student>().Where(c => c.name == par2.ToUpper()).ToList();
-                var convert5= db.Queryable<Student>().Where(c => DateTime.Now > Convert.ToDateTime("2015-1-1")).ToList();
+                var convert5 = db.Queryable<Student>().Where(c => DateTime.Now > Convert.ToDateTime("2015-1-1")).ToList();
                 var c1 = db.Queryable<Student>().Where(c => c.name.Contains("a")).ToList();
                 var c2 = db.Queryable<Student>().Where(c => c.name.StartsWith("a")).ToList();
                 var c3 = db.Queryable<Student>().Where(c => c.name.EndsWith("a")).ToList();
                 var c4 = db.Queryable<Student>().Where(c => !string.IsNullOrEmpty(c.name)).ToList();
                 var c5 = db.Queryable<Student>().Where(c => c.name.Equals("小杰")).ToList();
                 var c6 = db.Queryable<Student>().Where(c => c.name.Length > 4).ToList();
-                var time = db.Queryable<InsertTest>().Where(c => c.d1>DateTime.Now.AddDays(1)).ToList();
+                var time = db.Queryable<InsertTest>().Where(c => c.d1 > DateTime.Now.AddDays(1)).ToList();
                 var time2 = db.Queryable<InsertTest>().Where(c => c.d1 > DateTime.Now.AddYears(1)).ToList();
                 var time3 = db.Queryable<InsertTest>().Where(c => c.d1 > DateTime.Now.AddMonths(1)).ToList();
             }
@@ -376,7 +374,7 @@ namespace NewTest.Demos
                 var spResult = db.SqlQuery<School>("exec sp_school @p1,@p2", new { p1 = 1, p2 = 2 });
 
                 //存储过程加Output 
-                var pars = SqlSugarTool.GetParameters(new { p1 = 1,p2=0 }); //将匿名对象转成SqlParameter
+                var pars = SqlSugarTool.GetParameters(new { p1 = 1, p2 = 0 }); //将匿名对象转成SqlParameter
                 db.IsClearParameters = false;//禁止清除参数
                 pars[1].Direction = ParameterDirection.Output; //将p2设为 output
                 var spResult2 = db.SqlQuery<School>("exec sp_school @p1,@p2 output", pars);

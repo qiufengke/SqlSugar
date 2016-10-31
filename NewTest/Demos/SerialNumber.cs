@@ -18,7 +18,7 @@ namespace NewTest.Demos
             Console.WriteLine("启动SerialNumber.Init");
             using (SqlSugarClient db = SugarFactory.GetInstance())//开启数据库连接
             {
-                var dientityValue = db.Insert<Student>(new Student() {   });
+                var dientityValue = db.Insert<Student>(new Student() { });
                 var name = db.Queryable<Student>().Single(it => it.id == dientityValue.ObjToInt()).name;
                 Console.WriteLine(name);
 

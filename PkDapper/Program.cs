@@ -8,7 +8,7 @@ namespace PkDapper
 {
     class Program
     {
-     
+
         /// <summary>
         /// SqlSugar与Dapper的性能比较
         /// </summary>
@@ -17,8 +17,8 @@ namespace PkDapper
         {
             WarmUp wu = new WarmUp();//预热处理
 
-             //设置执行的DEMO
-            string switchOn = "6";
+            //设置执行的DEMO
+            string switchOn = "4";
             IDemos demo = null;
             switch (switchOn)
             {
