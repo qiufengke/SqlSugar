@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using Dapper;
 using Dapper.Contrib;
 using Dapper.Contrib.Extensions;
-using Models.PkDapper;
+using PkDapper.Models;
 using SqlSugar;
 using SqlSugar.Queryable;
 using SyntacticSugar;

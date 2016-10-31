@@ -7,7 +7,7 @@ using SqlSugar;
 using Dapper;
 using Dapper.Contrib;
 using Dapper.Contrib.Extensions;
-using Models.PkDapper;
+using PkDapper.Models;
 using SqlSugar.Queryable;
 
 namespace PkDapper.Demos
