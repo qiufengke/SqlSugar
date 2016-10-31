@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
+using SqlSugar.Queryable;
 using SqlSugar.Tool;
 
 namespace SqlSugar

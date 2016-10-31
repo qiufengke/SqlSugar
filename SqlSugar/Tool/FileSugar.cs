@@ -1,15 +1,14 @@
 ﻿
 #region 引用命名空间
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 using System.Web;
-using System.Threading;
-using System.Web.UI.WebControls;
+
 #endregion
 
-namespace SqlSugar
+namespace SqlSugar.Tool
 {
     /// <summary>
     /// ** 描述：文件公共类

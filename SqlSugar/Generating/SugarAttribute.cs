@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using SqlSugar.PubModel;
+using SqlSugar.Tool;
 
 namespace SqlSugar.Generating
 {

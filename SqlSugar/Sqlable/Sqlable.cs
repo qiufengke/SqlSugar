@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text;
 
-namespace SqlSugar
+namespace SqlSugar.Sqlable
 {
     /// <summary>
     /// ** 描述：Queryable是多表查询基类，基于拥有大量查询扩展函数
@@ -19,25 +17,30 @@ namespace SqlSugar
         /// 数据接口
         /// </summary>
         public SqlSugarClient DB = null;
-        /// <summary>
-        /// sql临时数据
-        /// </summary>
-        public StringBuilder Sql { get; set; }
-        /// <summary>
-        /// Where临时数据
-        /// </summary>
-        public List<string> Where = new List<string>();
-        /// <summary>
-        /// OrderBy临时数据
-        /// </summary>
-        public string OrderBy { get; set; }
-        /// <summary>
-        /// GroupBy临时数据
-        /// </summary>
-        public string GroupBy { get; set; }
+
         /// <summary>
         /// 参数
         /// </summary>
         public List<SqlParameter> Params = new List<SqlParameter>();
+
+        /// <summary>
+        /// Where临时数据
+        /// </summary>
+        public List<string> Where = new List<string>();
+
+        /// <summary>
+        /// sql临时数据
+        /// </summary>
+        public StringBuilder Sql { get; set; }
+
+        /// <summary>
+        /// OrderBy临时数据
+        /// </summary>
+        public string OrderBy { get; set; }
+
+        /// <summary>
+        /// GroupBy临时数据
+        /// </summary>
+        public string GroupBy { get; set; }
     }
 }

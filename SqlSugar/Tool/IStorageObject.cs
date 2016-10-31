@@ -1,5 +1,6 @@
 ﻿using System;
-namespace SqlSugar
+
+namespace SqlSugar.Tool
 {
     /// <summary>
     /// ** 描述：存储对象接口

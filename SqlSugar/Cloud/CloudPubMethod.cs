@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using SqlSugar.Tool;
 
-namespace SqlSugar
+namespace SqlSugar.Cloud
 {
 
     internal class CloudPubMethod

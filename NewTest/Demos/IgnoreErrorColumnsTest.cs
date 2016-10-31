@@ -7,6 +7,7 @@ using Models;
 using System.Data.SqlClient;
 using NewTest.Interface;
 using SqlSugar;
+using SqlSugar.Tool;
 
 namespace NewTest.Demos
 {

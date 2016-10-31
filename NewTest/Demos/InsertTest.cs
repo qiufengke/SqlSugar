@@ -9,6 +9,7 @@ using NewTest.Interface;
 using NewTest.Models;
 using SqlSugar;
 using SqlSugar.Queryable;
+using SqlSugar.Tool;
 
 namespace NewTest.Demos
 {

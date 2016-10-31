@@ -1,4 +1,6 @@
-﻿namespace SqlSugar.Core.ResolveExpress
+﻿using SqlSugar.Tool;
+
+namespace SqlSugar.Core.ResolveExpress
 {
     //局部类：解析属性
     internal partial class ResolveExpress

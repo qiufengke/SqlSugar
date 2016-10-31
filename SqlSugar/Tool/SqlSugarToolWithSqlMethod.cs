@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using SqlSugar.PubModel;
+using SqlSugar.Queryable;
 
 namespace SqlSugar.Tool
 {
@@ -22,7 +23,7 @@ namespace SqlSugar.Tool
             return string.Format("({0})", sql);
         }
 
-        internal static StringBuilder GetQueryableSql<T>(SqlSugar.Queryable<T> queryable)
+        internal static StringBuilder GetQueryableSql<T>(Queryable<T> queryable)
         {
             string joinInfo = string.Join(" ", queryable.JoinTableValue);
             StringBuilder sbSql = new StringBuilder();
@@ -102,7 +103,7 @@ namespace SqlSugar.Tool
             return sbSql;
         }
 
-        internal static void GetSqlableSql(Sqlable sqlable, string fileds, string orderByFiled, int pageIndex, int pageSize, StringBuilder sbSql)
+        internal static void GetSqlableSql(Sqlable.Sqlable sqlable, string fileds, string orderByFiled, int pageIndex, int pageSize, StringBuilder sbSql)
         {
             if (sqlable.DB.PageModel == PageModel.RowNumber)
             {

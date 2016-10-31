@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Data;
 using System.Data.SqlTypes;
+using System.Linq;
+using System.Reflection;
+using SqlSugar.Cloud;
 
-namespace SqlSugar
+namespace SqlSugar.Tool
 {
     /// <summary>
     /// ** 描述：IEnumerable扩展类

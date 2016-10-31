@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using SqlSugar.Core.ResolveExpress;
 using SqlSugar.Generating;
 using SqlSugar.PubModel;
+using SqlSugar.Queryable;
 using SqlSugar.Tool;
 
 namespace SqlSugar
@@ -136,7 +137,7 @@ namespace SqlSugar
             }
             return name;
         }
-        private void AddFilter<T>(SqlSugar.Queryable<T> queryable, string key) where T : new()
+        private void AddFilter<T>(Queryable<T> queryable, string key) where T : new()
         {
             if (_filterRows.ContainsKey(key))
             {
@@ -321,9 +322,9 @@ namespace SqlSugar
         /// <summary>
         /// 创建更接近Sql语句的查询对象
         /// </summary>
-        public Sqlable Sqlable()
+        public Sqlable.Sqlable Sqlable()
         {
-            var sqlable = new Sqlable() { DB = this };
+            var sqlable = new Sqlable.Sqlable() { DB = this };
             //全局过滤器
             if (CurrentFilterKey.IsValuable())
             {

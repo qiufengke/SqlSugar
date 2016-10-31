@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Data.SqlClient;
-using System.Linq.Expressions;
-using SqlSugar.Tool;
+using System.Linq;
+using System.Text.RegularExpressions;
 
-namespace SqlSugar
+namespace SqlSugar.Tool
 {
     ///<summary>
     /// ** 描述：SqlSugar扩展工具类

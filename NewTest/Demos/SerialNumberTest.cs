@@ -10,6 +10,7 @@ using NewTest.Models;
 using SqlSugar;
 using SqlSugar.PubModel;
 using SqlSugar.Queryable;
+using SqlSugar.Tool;
 
 namespace NewTest.Demos
 {

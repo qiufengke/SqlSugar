@@ -7,6 +7,8 @@ using System.Threading;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.Transactions;
+using SqlSugar.Cloud;
+using SqlSugar.Tool;
 
 namespace SqlSugar
 {

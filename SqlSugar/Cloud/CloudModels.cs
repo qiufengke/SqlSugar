@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace SqlSugar
+namespace SqlSugar.Cloud
 {
 
     /// <summary>
@@ -137,7 +134,7 @@ namespace SqlSugar
         public string FullOrderByStringReverse { get; set; }
         public object WhereObj { get; set; }
         public int ConfigCount { get; set; }
- 
+
         public string orderByFieldsString { get; set; }
 
         public List<OrderByDictionary> OrderByTypes { get; set; }

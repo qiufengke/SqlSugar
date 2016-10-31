@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Collections;
-using System.Linq.Expressions;
 
-namespace SqlSugar
+namespace SqlSugar.Tool
 {
     /// <summary>
     /// ** 描述：缓存操作类
