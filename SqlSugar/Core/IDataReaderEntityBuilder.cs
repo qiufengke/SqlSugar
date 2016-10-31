@@ -87,50 +87,50 @@ namespace SqlSugar
         /// <returns></returns>
         public static IDataReaderEntityBuilder<T> CreateBuilder(Type type, IDataRecord dataRecord)
         {
-                IDataReaderEntityBuilder<T> dynamicBuilder = new IDataReaderEntityBuilder<T>();
-                DynamicMethod method = new DynamicMethod("DynamicCreateEntity", type,
-                        new Type[] { typeof(IDataRecord) }, type, true);
-                ILGenerator generator = method.GetILGenerator();
-                LocalBuilder result = generator.DeclareLocal(type);
-                generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
-                generator.Emit(OpCodes.Stloc, result);
-                string cacheKey = "SqlSugarClient.InitAttributes";
-                var cm = CacheManager<List<KeyValue>>.GetInstance();
-                var tFieldNames = typeof(T).GetProperties().Select(it => it.Name).ToList();
-                for (int i = 0; i < dataRecord.FieldCount; i++)
+            IDataReaderEntityBuilder<T> dynamicBuilder = new IDataReaderEntityBuilder<T>();
+            DynamicMethod method = new DynamicMethod("DynamicCreateEntity", type,
+                    new Type[] { typeof(IDataRecord) }, type, true);
+            ILGenerator generator = method.GetILGenerator();
+            LocalBuilder result = generator.DeclareLocal(type);
+            generator.Emit(OpCodes.Newobj, type.GetConstructor(Type.EmptyTypes));
+            generator.Emit(OpCodes.Stloc, result);
+            string cacheKey = "SqlSugarClient.InitAttributes";
+            var cm = CacheManager<List<KeyValue>>.GetInstance();
+            var tFieldNames = typeof(T).GetProperties().Select(it => it.Name).ToList();
+            for (int i = 0; i < dataRecord.FieldCount; i++)
+            {
+                string dbFieldName = dataRecord.GetName(i);
+                if (cm.ContainsKey(cacheKey) && cm[cacheKey].Any(it => it.Value == dbFieldName))
                 {
-                    string dbFieldName = dataRecord.GetName(i);
-                    if (cm.ContainsKey(cacheKey) && cm[cacheKey].Any(it => it.Value == dbFieldName))
+                    var classFieldName = cm[cacheKey].Single(it => it.Value == dbFieldName).Key;
+                    if (tFieldNames.Any(it => it == classFieldName))//T包含映射属性
                     {
-                        var classFieldName= cm[cacheKey].Single(it => it.Value == dbFieldName).Key;
-                        if (tFieldNames.Any(it => it == classFieldName))//T包含映射属性
-                        {
-                            dbFieldName = classFieldName;
-                        }
-                    }
-                    PropertyInfo propertyInfo = type.GetProperty(dbFieldName);
-                    Label endIfLabel = generator.DefineLabel();
-                    if (propertyInfo != null && propertyInfo.GetSetMethod() != null)
-                    {
-                        bool isNullable = false;
-                        var underType = SqlSugarTool.GetUnderType(propertyInfo, ref isNullable);
-
-                        generator.Emit(OpCodes.Ldarg_0);
-                        generator.Emit(OpCodes.Ldc_I4, i);
-                        generator.Emit(OpCodes.Callvirt, isDBNullMethod);
-                        generator.Emit(OpCodes.Brtrue, endIfLabel);
-                        generator.Emit(OpCodes.Ldloc, result);
-                        generator.Emit(OpCodes.Ldarg_0);
-                        generator.Emit(OpCodes.Ldc_I4, i);
-                        GeneratorCallMethod(generator, underType, isNullable, propertyInfo, dataRecord.GetDataTypeName(i), dbFieldName);
-                        generator.Emit(OpCodes.Callvirt, propertyInfo.GetSetMethod());
-                        generator.MarkLabel(endIfLabel);
+                        dbFieldName = classFieldName;
                     }
                 }
-                generator.Emit(OpCodes.Ldloc, result);
-                generator.Emit(OpCodes.Ret);
-                dynamicBuilder.handler = (Load)method.CreateDelegate(typeof(Load));
-                return dynamicBuilder;
+                PropertyInfo propertyInfo = type.GetProperty(dbFieldName);
+                Label endIfLabel = generator.DefineLabel();
+                if (propertyInfo != null && propertyInfo.GetSetMethod() != null)
+                {
+                    bool isNullable = false;
+                    var underType = SqlSugarTool.GetUnderType(propertyInfo, ref isNullable);
+
+                    generator.Emit(OpCodes.Ldarg_0);
+                    generator.Emit(OpCodes.Ldc_I4, i);
+                    generator.Emit(OpCodes.Callvirt, isDBNullMethod);
+                    generator.Emit(OpCodes.Brtrue, endIfLabel);
+                    generator.Emit(OpCodes.Ldloc, result);
+                    generator.Emit(OpCodes.Ldarg_0);
+                    generator.Emit(OpCodes.Ldc_I4, i);
+                    GeneratorCallMethod(generator, underType, isNullable, propertyInfo, dataRecord.GetDataTypeName(i), dbFieldName);
+                    generator.Emit(OpCodes.Callvirt, propertyInfo.GetSetMethod());
+                    generator.MarkLabel(endIfLabel);
+                }
+            }
+            generator.Emit(OpCodes.Ldloc, result);
+            generator.Emit(OpCodes.Ret);
+            dynamicBuilder.handler = (Load)method.CreateDelegate(typeof(Load));
+            return dynamicBuilder;
         }
 
 
@@ -348,6 +348,6 @@ namespace SqlSugar
 
 
         }
-  
+
     }
 }
