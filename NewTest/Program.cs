@@ -18,7 +18,7 @@ namespace NewTest
         /// <param name="args"></param>
         private static void Main(string[] args)
         {
-            // 设置执行的DEMO
+            // 设置执行的DEMO    
             var switchOn = "select";
             IDemos demo = null;
             switch (switchOn)
