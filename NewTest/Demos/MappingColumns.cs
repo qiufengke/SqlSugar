@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NewTest.Dao;
 using System.Data.SqlClient;
+using NewTest.Interface;
 using SqlSugar;
 namespace NewTest.Demos
 {

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NewTest.Dao;
-using Models;
-using System.Data.SqlClient;
+using NewTest.Interface;
 using SqlSugar;
 
 namespace NewTest.Demos
@@ -14,13 +11,11 @@ namespace NewTest.Demos
     /// </summary>
     public class InitConfig : IDemos
     {
-
         public void Init()
         {
             Console.WriteLine("启动InitConfig.Init");
-            using (SqlSugarClient db = SugarPocoDao.GetInstance())//开启数据库连接
+            using (var db = SugarPocoDao.GetInstance()) //开启数据库连接
             {
-
             }
         }
 
@@ -30,26 +25,34 @@ namespace NewTest.Demos
         public class DaoInitConfig
         {
             //别名列
-            public static List<KeyValue> columnMappingList= new List<KeyValue>() { 
-                new KeyValue(){ Key="entityId", Value="tableId"},
-                new KeyValue(){ Key="entityName", Value="tableName"}
+            public static List<KeyValue> columnMappingList = new List<KeyValue>
+            {
+                new KeyValue {Key = "entityId", Value = "tableId"},
+                new KeyValue {Key = "entityName", Value = "tableName"}
             };
 
             //别名表 
-            public static List<KeyValue> tableMappingList = null;
-
-
+            public static List<KeyValue> tableMappingList;
             //流水号
-            public static List<PubModel.SerialNumber> serialNumber = new List<PubModel.SerialNumber>(){
-              new PubModel.SerialNumber(){TableName="Student", FieldName="name", GetNumFunc=()=>{  return "stud-"+DateTime.Now.ToString("yyyy-MM-dd");}},
-              new PubModel.SerialNumber(){TableName="School", FieldName="name",  GetNumFuncWithDb=db=>{ return "ch-"+DateTime.Now.ToString("syyyy-MM-dd"); }}
+            public static List<PubModel.SerialNumber> serialNumber = new List<PubModel.SerialNumber>
+            {
+                new PubModel.SerialNumber
+                {
+                    TableName = "Student",
+                    FieldName = "name",
+                    GetNumFunc = () => { return "stud-" + DateTime.Now.ToString("yyyy-MM-dd"); }
+                },
+                new PubModel.SerialNumber
+                {
+                    TableName = "School",
+                    FieldName = "name",
+                    GetNumFuncWithDb = db => { return "ch-" + DateTime.Now.ToString("syyyy-MM-dd"); }
+                }
             };
 
             //自动排除非数据库列
-            public static bool IsIgnoreErrorColumns=true;
-
+            public static bool IsIgnoreErrorColumns = true;
         }
-
 
         /// <summary>
         /// 扩展SqlSugarClient
@@ -59,24 +62,22 @@ namespace NewTest.Demos
             //禁止实例化
             private SugarPocoDao()
             {
-
             }
 
             public static SqlSugarClient GetInstance()
             {
-
-                string connection = SugarDao.ConnectionString; //这里可以动态根据cookies或session实现多库切换
+                var connection = SugarDao.ConnectionString; //这里可以动态根据cookies或session实现多库切换
                 var db = new SqlSugarClient(connection);
 
                 /**这种写法只给db对象添加了4个指向地址（DaoInitConfig变量都为静态对象），并非指向内容，指向内容初始化后存储在内存当中，所以性能就不用说了 **/
 
-                db.SetMappingTables(GetMappingTables(db));//设置别名表
+                db.SetMappingTables(GetMappingTables(db)); //设置别名表
 
-                db.SetMappingColumns(DaoInitConfig.columnMappingList);//设置别名列
+                db.SetMappingColumns(DaoInitConfig.columnMappingList); //设置别名列
 
-                db.SetSerialNumber(DaoInitConfig.serialNumber);//设置流水号
+                db.SetSerialNumber(DaoInitConfig.serialNumber); //设置流水号
 
-                db.IsIgnoreErrorColumns = DaoInitConfig.IsIgnoreErrorColumns;  //自动排除非数据库列
+                db.IsIgnoreErrorColumns = DaoInitConfig.IsIgnoreErrorColumns; //自动排除非数据库列
 
 
                 return db;
@@ -92,10 +93,10 @@ namespace NewTest.Demos
                 if (DaoInitConfig.tableMappingList == null)
                 {
                     DaoInitConfig.tableMappingList = new List<KeyValue>();
-                    db.ClassGenerating.ForeachTables(db, name =>//内置遍历表名和视图名函数
+                    db.ClassGenerating.ForeachTables(db, name => //内置遍历表名和视图名函数
                     {
                         //给所有表名加dbo.
-                        DaoInitConfig.tableMappingList.Add(new KeyValue() { Key = name, Value ="dbo."+name });
+                        DaoInitConfig.tableMappingList.Add(new KeyValue { Key = name, Value = "dbo." + name });
 
                         //动态获取sechma
                         // DaoInitConfig.tableMappingList.Add(new KeyValue() { Key = name, Value = db.ClassGenerating.GetTableNameWithSchema(db,name) });

@@ -4,7 +4,7 @@ using SqlSugar;
 namespace NewTest.Dao
 {
     /// <summary>
-    ///     SqlSugar
+    /// SqlSugar
     /// </summary>
     public class SugarDao
     {
@@ -17,10 +17,9 @@ namespace NewTest.Dao
         {
             get
             {
-                //Data Source=local;Integrated Security=SSPI;Initial Catalog=SqlSugarTest;
-                var reval = "Data Source=(local);Integrated Security=SSPI;Initial Catalog=SqlSugarTest";
+                var conStr = "Data Source=(local);Integrated Security=SSPI;Initial Catalog=SqlSugarTest";
                 //这里可以动态根据cookies或session实现多库切换
-                return reval;
+                return conStr;
             }
         }
 

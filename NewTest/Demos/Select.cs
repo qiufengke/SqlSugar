@@ -7,6 +7,7 @@ using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
 using System.Data;
+using NewTest.Interface;
 
 namespace NewTest.Demos
 {

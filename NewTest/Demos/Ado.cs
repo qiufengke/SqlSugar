@@ -5,6 +5,7 @@ using System.Text;
 using NewTest.Dao;
 using Models;
 using System.Data.SqlClient;
+using NewTest.Interface;
 
 namespace NewTest.Demos
 {
