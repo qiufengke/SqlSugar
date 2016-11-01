@@ -18,3 +18,4 @@ C:\Users\wangs\Documents\GitHub\SqlSugar\SqlSugar\bin\Debug\SqlSugar.dll
 C:\Users\wangs\Documents\GitHub\SqlSugar\SqlSugar\bin\Debug\SqlSugar.pdb
 C:\Users\wangs\Documents\GitHub\SqlSugar\SqlSugar\obj\Debug\SqlSugar.dll
 C:\Users\wangs\Documents\GitHub\SqlSugar\SqlSugar\obj\Debug\SqlSugar.pdb
+C:\Users\wangs\Documents\GitHub\SqlSugar\SqlSugar\obj\Debug\SqlSugar.csprojResolveAssemblyReference.cache

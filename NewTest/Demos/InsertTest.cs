@@ -32,7 +32,6 @@ namespace NewTest.Demos
                 db.SqlBulkCopy(GetInsertList()); //批量插入 适合海量数据插入
 
 
-
                 //设置不插入列
                 db.DisableInsertColumns = new string[] { "sex" };//sex列将不会插入值
                 StudentEntity s = new StudentEntity()
@@ -54,7 +53,7 @@ namespace NewTest.Demos
                 //清空禁止插入列
                 db.DisableInsertColumns = null;
                 //添加禁止插入列
-                db.AddDisableInsertColumns("name","id");
+                db.AddDisableInsertColumns("name", "id");
             }
         }
 

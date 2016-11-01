@@ -19,7 +19,7 @@ namespace NewTest
         private static void Main(string[] args)
         {
             // 设置执行的DEMO    
-            var switchOn = "select";
+            var switchOn = "attributesmapping";
             IDemos demo = null;
             switch (switchOn)
             {

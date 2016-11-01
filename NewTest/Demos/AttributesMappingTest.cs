@@ -61,17 +61,17 @@ namespace NewTest.Demos
         /// <summary>
         /// 属性只作为初始化映射，SetMappingTables和SetMappingColumns可以覆盖
         /// </summary>
-        [SugarMapping(TableName = "Student")]
+        [Alias(TableName = "Student")]
         public class TestStudent
         {
 
-            [SugarMapping(ColumnName = "id")]
+            [Alias(ColumnName = "id")]
             public int classId { get; set; }
 
-            [SugarMapping(ColumnName = "name")]
+            [Alias(ColumnName = "name")]
             public string className { get; set; }
 
-            [SugarMapping(ColumnName = "sch_id")]
+            [Alias(ColumnName = "sch_id")]
             public int classSchoolId { get; set; }
 
             public int isOk { get; set; }
@@ -83,14 +83,14 @@ namespace NewTest.Demos
         }
 
  
-        [SugarMapping(TableName = "School")]
+        [Alias(TableName = "School")]
         public class TestSchool
         {
 
-            [SugarMapping(ColumnName = "id")]
+            [Alias(ColumnName = "id")]
             public int classId { get; set; }
 
-            [SugarMapping(ColumnName = "name")]
+            [Alias(ColumnName = "name")]
             public string className { get; set; }
 
             public int AreaId = 1;

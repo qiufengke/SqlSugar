@@ -57,7 +57,7 @@
     <Compile Include="Core\ResolveExpress\Method.cs" />
     <Compile Include="Core\ResolveExpress\Models.cs" />
     <Compile Include="Core\ResolveExpress\ResolveSelect.cs" />
-    <Compile Include="Generating\SugarAttribute.cs" />
+    <Compile Include="Generating\AliasAttribute.cs" />
     <Compile Include="Generating\ClassTemplate.cs" />
     <Compile Include="Tool\Check.cs" />
     <Compile Include="Core\IDataRecordExtensions.cs" />
@@ -90,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSugar.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Attribute\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
