@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Models;
 using NewTest.Dao;
 using NewTest.Interface;
 using NewTest.Models;
@@ -20,7 +19,8 @@ namespace NewTest.Demos
             // 单个设置
             using (var db = SugarDao.GetInstance())
             {
-                var list = db.Queryable<V_StudentEntity>("Student").ToList(); // 查询的是 select * from student 而我的实体名称为V_Student
+                var list = db.Queryable<V_StudentEntity>("Student").ToList();
+                // 查询的是 select * from student 而我的实体名称为V_Student
             }
 
 

@@ -560,19 +560,19 @@ namespace SqlSugar
 
             var sbInsertSql = new StringBuilder();
             var pars = new List<SqlParameter>();
-            var identities = SqlSugarTool.GetIdentitiesKeyByTableName(this, typeName);
+            var identities = SqlSugarTool.GetIdentitiesKeyByTableName(this, typeName); // 自增列
             isIdentity = identities != null && identities.Count > 0;
-            //sql语句缓存
+
+            // sql语句缓存
             var cacheSqlKey = "db.Insert." + type.FullName;
+            var cacheSqlManager = CacheManager<StringBuilder>.GetInstance();
             if (DisableInsertColumns.IsValuable())
             {
                 cacheSqlKey = cacheSqlKey + string.Join("", DisableInsertColumns);
             }
-            var cacheSqlManager = CacheManager<StringBuilder>.GetInstance();
 
-            //属性缓存
+            // 属性缓存
             var cachePropertiesKey = "db." + type.FullName + ".GetProperties";
-
             var cachePropertiesManager = CacheManager<PropertyInfo[]>.GetInstance();
 
             PropertyInfo[] props = null;
@@ -592,23 +592,18 @@ namespace SqlSugar
             }
             else
             {
-                //2.获得实体的属性集合 
-
-
-                //实例化一个StringBuilder做字符串的拼接 
-
-
+                // 获得实体的属性集合 
+                // 实例化一个StringBuilder做字符串的拼接
                 sbInsertSql.Append("insert into " + typeName.GetTranslationSqlName() + " (");
 
-                //3.遍历实体的属性集合 
+                // 遍历实体的属性集合 
                 foreach (var prop in props)
                 {
                     var propName = GetMappingColumnDbName(prop.Name);
                     if (IsIgnoreErrorColumns)
                     {
-                        if (
-                            !SqlSugarTool.GetColumnsByTableName(this, typeName)
-                                .Any(it => it.ToLower() == propName.ToLower()))
+                        if (!SqlSugarTool.GetColumnsByTableName(this, typeName)
+                            .Any(it => it.ToLower() == propName.ToLower()))
                         {
                             continue;
                         }
@@ -620,33 +615,28 @@ namespace SqlSugar
                             continue;
                         }
                     }
-
-                    //EntityState,@EntityKey
                     if (!isIdentity || identities.Any(it => it.Value.ToLower() != propName.ToLower()))
                     {
-                        //4.将属性的名字加入到字符串中 
+                        // 将属性的名字加入到字符串中 
                         sbInsertSql.Append(propName.GetTranslationSqlName() + ",");
                     }
                 }
-                //**去掉最后一个逗号 
+                // 去掉最后一个逗号 
                 sbInsertSql.Remove(sbInsertSql.Length - 1, 1);
                 sbInsertSql.Append(" ) values(");
             }
 
-            //5.再次遍历，形成参数列表"(@xx,@xx@xx)"的形式 
+            // 再次遍历，形成参数列表"(@xx,@xx@xx)"的形式 
             foreach (var prop in props)
             {
                 var propName = GetMappingColumnDbName(prop.Name);
 
-
-                //EntityState,@EntityKey
                 if (!isIdentity || identities.Any(it => it.Value.ToLower() != propName.ToLower()))
                 {
                     if (IsIgnoreErrorColumns)
                     {
-                        if (
-                            !SqlSugarTool.GetColumnsByTableName(this, typeName)
-                                .Any(it => it.ToLower() == propName.ToLower()))
+                        if (!SqlSugarTool.GetColumnsByTableName(this, typeName)
+                            .Any(it => it.ToLower() == propName.ToLower()))
                         {
                             continue;
                         }
@@ -660,15 +650,13 @@ namespace SqlSugar
                     }
                     if (!cacheSqlManager.ContainsKey(cacheSqlKey))
                         sbInsertSql.Append(propName.GetSqlParameterName() + ",");
-                    var val = prop.GetValue(entity, null);
-                    if (val == null)
-                        val = DBNull.Value;
+
+                    var val = prop.GetValue(entity, null) ?? DBNull.Value;
                     if (_serialNumber.IsValuable())
                     {
-                        Func<SerialNumber, bool> serEexp =
-                            it =>
-                                it.TableName.ToLower() == typeName.ToLower() &&
-                                it.FieldName.ToLower() == propName.ToLower();
+                        Func<SerialNumber, bool> serEexp = it =>
+                            it.TableName.ToLower() == typeName.ToLower() &&
+                            it.FieldName.ToLower() == propName.ToLower();
                         var isAnyNum = _serialNumber.Any(serEexp);
                         if (isAnyNum && (val == DBNull.Value || val.IsNullOrEmpty()))
                         {
@@ -699,7 +687,7 @@ namespace SqlSugar
             }
             if (!isContainCacheSqlKey)
             {
-                //**去掉最后一个逗号 
+                // 去掉最后一个逗号 
                 sbInsertSql.Remove(sbInsertSql.Length - 1, 1);
                 if (isIdentity == false)
                 {
