@@ -15,13 +15,12 @@ namespace NewTest.Demos
     //日志记录功能
     public class LogTest : IDemos
     {
-       
+
         public void Init()
         {
             Console.WriteLine("启动Log.Init");
             using (var db = SugarDemoDao.GetInstance())
             {
-
                 var a1 = db.Queryable<StudentEntity>().Where(it => it.id == 1).ToList();
                 var a2 = db.Queryable<StudentEntity>().OrderBy(it => it.id).ToList();
             }
@@ -32,7 +31,7 @@ namespace NewTest.Demos
             public static Action<string, string> LogEventStarting = (sql, pars) =>
             {
                 Console.WriteLine("starting:" + sql + " " + pars);
-                
+
                 using (var db = SugarDemoDao.GetInstance())
                 {
                     //日志记录件事件里面用到数据库操作 IsEnableLogEvent一定要为false否则将引起死循环，并且要新开一个数据实例 像我这样写就没问题。
