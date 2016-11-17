@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NewTest.Dao;
-using Models;
-using System.Data.SqlClient;
 using NewTest.Interface;
 using NewTest.Models;
 using SqlSugar;
@@ -17,11 +13,10 @@ namespace NewTest.Demos
     //使用场合(例如：假删除查询，这个时候就可以设置一个过滤器,不需要每次都 .Where(it=>it.IsDelete==true))  
     public class FilterTest : IDemos
     {
-
         public void Init()
         {
             Console.WriteLine("启动Filter.Init");
-            using (SqlSugarClient db = SugarDaoFilter.GetInstance())//开启数据库连接
+            using (var db = SugarDaoFilter.GetInstance()) //开启数据库连接
             {
                 //设置走哪个过滤器
                 db.CurrentFilterKey = "role,role2"; //支持多个过滤器以逗号隔开
@@ -40,37 +35,38 @@ namespace NewTest.Demos
                 //同上
             }
         }
+
         /// <summary>
         /// 扩展SqlSugarClient
         /// </summary>
         public class SugarDaoFilter
         {
-            //禁止实例化
-            private SugarDaoFilter()
-            {
-
-            }
             /// <summary>
             /// 页面所需要的过滤函数
             /// </summary>
-            private static Dictionary<string, Func<KeyValueObj>> _filterParas = new Dictionary<string, Func<KeyValueObj>>()
-        {
-          { "role",()=>{
-                    return new KeyValueObj(){ Key=" id=@id" , Value=new{ id=1}};
-               }
-          },
-          { "role2",()=>{ 
-                    return new KeyValueObj(){ Key=" id>0"};
-              }
-          },
-        };
+            private static readonly Dictionary<string, Func<KeyValueObj>> _filterParas = new Dictionary
+                <string, Func<KeyValueObj>>
+            {
+                {
+                    "role", () => new KeyValueObj {Key = " id=@id", Value = new {id = 1}}
+                },
+                {
+                    "role2", () => new KeyValueObj {Key = " id>0"}
+                }
+            };
+
+            //禁止实例化
+            private SugarDaoFilter()
+            {
+            }
+
             public static SqlSugarClient GetInstance()
             {
-                string connection = SugarDao.ConnectionString; //这里可以动态根据cookies或session实现多库切换
+                var connection = SugarDao.ConnectionString; //这里可以动态根据cookies或session实现多库切换
                 var db = new SqlSugarClient(connection);
                 db.SetFilterFilterParas(_filterParas);
 
-                db.IsEnableLogEvent = true;//启用日志事件
+                db.IsEnableLogEvent = true; //启用日志事件
                 db.LogEventStarting = (sql, par) => { Console.WriteLine(sql + " " + par + "\r\n"); };
                 return db;
             }
